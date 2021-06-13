@@ -1,16 +1,20 @@
 package model;
 
+import enumeration.ArticleType;
+
 import java.math.BigDecimal;
 
 public class Article {
     private Long id;
     private String name;
+    private ArticleType articleType;
     private Integer quantity;
     private BigDecimal price;
 
-    public Article(Long id, String name, Integer quantity, BigDecimal price) {
+    public Article(Long id, String name, ArticleType articleType, Integer quantity, BigDecimal price) {
         this.id = id;
         this.name = name;
+        this.articleType = articleType;
         this.quantity = quantity;
         this.price = price;
     }
@@ -29,6 +33,14 @@ public class Article {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ArticleType getArticleType() {
+        return articleType;
+    }
+
+    public void setArticleType(ArticleType articleType) {
+        this.articleType = articleType;
     }
 
     public Integer getQuantity() {
@@ -52,6 +64,7 @@ public class Article {
         return "Article{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", articleType=" + articleType +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';

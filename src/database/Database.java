@@ -1,8 +1,8 @@
 package database;
 
+import enumeration.ArticleType;
 import model.Article;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -53,10 +53,18 @@ public class Database {
         while (rs.next()){
             long id = rs.getLong("id");
             String name = rs.getString("name");
+            String articleTypeString = rs.getString("type");
+
+            ArticleType articleType = null;
+            switch (articleTypeString){
+                case "Food":
+                    articleType = ArticleType.FOOD;
+            }
+
             Integer quantity = rs.getInt("quantity");
             BigDecimal price = rs.getBigDecimal("price");
 
-            Article article = new Article(id, name, quantity, price);
+            Article article = new Article(id, name, articleType, quantity, price);
             articles.add(article);
         }
         closeConnection(connection);
