@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -13,9 +12,6 @@
          <center>
             <Label text="Hello world" BorderPane.alignment="CENTER" />
          </center>
-         <top>
-            <DatePicker BorderPane.alignment="CENTER" />
-         </top>
       </BorderPane>
    </children>
    <columnConstraints>
