@@ -2,6 +2,7 @@ package database;
 
 import enumeration.ArticleType;
 import model.Article;
+import model.User;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -69,5 +70,25 @@ public class Database {
         }
         closeConnection(connection);
         return articles;
+    }
+
+    public static List<User> fetchAllUsers() throws SQLException{
+        List<User> users = new ArrayList<>();
+
+        Connection connection = openConnection();
+
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
+
+        while (rs.next()){
+            long id = rs.getLong("id");
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+
+            User user = new User(id, username, password);
+            users.add(user);
+        }
+        closeConnection(connection);
+        return users;
     }
 }
