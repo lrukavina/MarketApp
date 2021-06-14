@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Properties;
 
@@ -90,5 +91,16 @@ public class Database {
         }
         closeConnection(connection);
         return users;
+    }
+
+    public static void registerUser(User user) throws SQLException{
+        Connection connection = openConnection();
+
+        PreparedStatement stmt =connection.prepareStatement("INSERT INTO USER (USERNAME, PASSWORD) VALUES (?,?)");
+        stmt.setString(1, user.getUsername());
+        stmt.setString(2, user.encodePassword(user.getPassword()));
+
+        stmt.executeUpdate();
+        closeConnection(connection);
     }
 }

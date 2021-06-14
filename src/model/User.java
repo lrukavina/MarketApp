@@ -9,7 +9,11 @@ public class User {
     private String password;
 
     public User(Long id, String username, String password) {
-        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String  username, String password){
         this.username = username;
         this.password = password;
     }
@@ -31,23 +35,21 @@ public class User {
     }
 
     public String getPassword() {
-        String decodedPassword;
-        decodedPassword = decodePassword(password);
-        return decodedPassword;
+        return password;
     }
 
     public void setPassword(String password) {
-        this.password = encodePassword(password);
-    }
-
-    public String encodePassword(String password){
-        String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
-        return encodedPassword;
+        this.password = password;
     }
 
     public String decodePassword(String password){
         byte[] decodedBytes = Base64.getDecoder().decode(password);
         String decodedString = new String(decodedBytes);
         return decodedString;
+    }
+
+    public String encodePassword(String password){
+        String encodedPassword = Base64.getEncoder().encodeToString(this.getPassword().getBytes());
+        return encodedPassword;
     }
 }
