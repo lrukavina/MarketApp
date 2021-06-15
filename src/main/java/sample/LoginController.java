@@ -11,6 +11,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import model.Article;
 import model.User;
+import security.PasswordEncoder;
 
 
 import java.io.IOException;
@@ -53,6 +54,7 @@ public class LoginController implements Initializable {
     public void login() throws IOException{
         String usernameText = usernameTextField.getText();
         String passwordText = passwordTextField.getText();
+        PasswordEncoder passwordEncoder = new PasswordEncoder();
         Boolean userFound = false;
 
         if(usernameText.isEmpty() || passwordText.isEmpty()){
@@ -74,7 +76,7 @@ public class LoginController implements Initializable {
         }
         else{
             for(User user: users){
-                if(user.getUsername().equals(usernameText) && user.decodePassword(user.getPassword()).equals(passwordText)){
+                if(user.getUsername().equals(usernameText) && passwordEncoder.decodePassword(user.getPassword()).equals(passwordText)){
                     Parent mainMenuFrame =
                             FXMLLoader.load(getClass().getClassLoader().getResource("mainMenu.fxml"));
                     Scene mainMenuScene = new Scene(mainMenuFrame, 600, 400);

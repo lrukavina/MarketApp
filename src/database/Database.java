@@ -3,6 +3,7 @@ package database;
 import enumeration.ArticleType;
 import model.Article;
 import model.User;
+import security.PasswordEncoder;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -95,10 +96,11 @@ public class Database {
 
     public static void registerUser(User user) throws SQLException{
         Connection connection = openConnection();
+        PasswordEncoder passwordEncoder = new PasswordEncoder();
 
         PreparedStatement stmt =connection.prepareStatement("INSERT INTO USER (USERNAME, PASSWORD) VALUES (?,?)");
         stmt.setString(1, user.getUsername());
-        stmt.setString(2, user.encodePassword(user.getPassword()));
+        stmt.setString(2, passwordEncoder.encodePassword(user.getPassword()));
 
         stmt.executeUpdate();
         closeConnection(connection);
