@@ -1,14 +1,17 @@
 package main.java.sample;
 
 import database.Database;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import model.Article;
 import model.User;
 import security.PasswordEncoder;
@@ -31,12 +34,17 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField passwordTextField;
 
-    List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
+
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             users = Database.fetchAllUsers();
+            System.out.println(users);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -51,7 +59,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void login() throws IOException{
+    public void login(ActionEvent event) throws IOException, SQLException {
         String usernameText = usernameTextField.getText();
         String passwordText = passwordTextField.getText();
         PasswordEncoder passwordEncoder = new PasswordEncoder();
@@ -77,10 +85,17 @@ public class LoginController implements Initializable {
         else{
             for(User user: users){
                 if(user.getUsername().equals(usernameText) && passwordEncoder.decodePassword(user.getPassword()).equals(passwordText)){
-                    Parent mainMenuFrame =
-                            FXMLLoader.load(getClass().getClassLoader().getResource("mainMenu.fxml"));
-                    Scene mainMenuScene = new Scene(mainMenuFrame, 600, 400);
-                    Main.getMainStage().setScene(mainMenuScene);
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("mainMenu.fxml"));
+                    root = loader.load();
+
+                    MainMenuController mainMenuController = loader.getController();
+                    mainMenuController.initUser(user);
+
+                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
                     userFound = true;
                 }
             }

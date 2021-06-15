@@ -82,14 +82,11 @@ public class Database {
         ResultSet rs = stmt.executeQuery("SELECT * FROM USER");
 
         while (rs.next()){
-            long id = rs.getLong("id");
+            Long id = rs.getLong("id");
             String username = rs.getString("username");
             String password = rs.getString("password");
-            List<Article> articles = new ArrayList<>();
 
-            articles = fetchUserArticles(id);
-
-            User user = new User(id, username, password, articles);
+            User user = new User(id, username, password);
             users.add(user);
         }
         closeConnection(connection);
@@ -108,7 +105,7 @@ public class Database {
         closeConnection(connection);
     }
 
-    public static List<Article> fetchUserArticles(Long userId)throws SQLException{
+    public static List<Article> fetchUserArticles(Long userId) throws SQLException{
         List<Article> articles = new ArrayList<>();
 
         Connection connection = openConnection();
