@@ -1,19 +1,26 @@
 package model;
 
-import java.util.Arrays;
-import java.util.Base64;
+import java.util.List;
 
 public class User {
     private Long id;
     private String username;
     private String password;
+    private List<Article> articles;
 
-    public User(Long id, String username, String password) {
+    public User(Long id, String username, String password, List<Article> articles) {
         this.username = username;
         this.password = password;
+        this.articles = articles;
     }
 
-    public User(String  username, String password){
+    public User(String username, String password, List<Article> articles){
+        this.username = username;
+        this.password = password;
+        this.articles = articles;
+    }
+
+    public User(String username, String password){
         this.username = username;
         this.password = password;
     }
@@ -42,4 +49,21 @@ public class User {
         this.password = password;
     }
 
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", articles=" + articles +
+                '}';
+    }
 }
