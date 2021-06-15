@@ -13,4 +13,9 @@ public enum ArticleType {
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return this.getDescription();
+    }
 }

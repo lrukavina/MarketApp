@@ -44,7 +44,6 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             users = Database.fetchAllUsers();
-            System.out.println(users);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
