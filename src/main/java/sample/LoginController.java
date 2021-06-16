@@ -12,13 +12,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Article;
 import model.User;
 import security.PasswordEncoder;
 
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -94,6 +92,7 @@ public class LoginController implements Initializable {
                     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
                     stage.setScene(scene);
+                    stage.setTitle("Market");
                     stage.show();
                     userFound = true;
                 }
