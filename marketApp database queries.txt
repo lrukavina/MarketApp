@@ -18,7 +18,7 @@ password varchar(255) not null
 );
 
 INSERT INTO USER (USERNAME, PASSWORD)VALUES
-('admin', '123');
+('admin', 'MTIz');
 
 CREATE TABLE IF NOT EXISTS USER_ITEM(
 user_id bigint not null,
@@ -29,6 +29,7 @@ constraint fk_item foreign key (item_id) references item(id)
 
 INSERT INTO USER_ITEM(USER_ID, ITEM_ID) VALUES
 (1, 1);
+(1, 2);
 
 
 ///QUERY TO FETCH ITEM FOR USER ID
