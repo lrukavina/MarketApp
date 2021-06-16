@@ -17,7 +17,7 @@ public class Database {
 
     private static final String CONFIG_FILE = "src/database/config.properties";
 
-    public static Connection openConnection() {
+    private static Connection openConnection() {
         Properties properties = new Properties();
         Connection connection = null;
 
