@@ -27,7 +27,7 @@ public class Item {
         this.price = price;
     }
 
-    public Item(Long id, String name, ItemType itemType, Integer quantity, BigDecimal price) {
+    public Item(Long id, String name, ItemType itemType, Integer quantity, BigDecimal price) throws SQLException {
         this.id = id;
         this.name = name;
         this.itemType = itemType;
@@ -96,41 +96,23 @@ public class Item {
                 '}';
     }
 
-    private String generateCode(ItemType itemType) {
-        String  code = "", codeResult = "";
+    private String generateCode(ItemType itemType) throws SQLException {
+        String  code;
         Random random = new Random();
+        Boolean duplicate = false;
 
 
-        boolean duplicate = false;
-        try {
-            Connection connection = Database.openConnection();
+        do{
+            code = "";
+            switch (itemType) {
+                case FOOD -> code = "FD";
+                default -> code = "ND";
+            }
 
-            do{
-                switch (itemType) {
-                    case FOOD -> code = "FD";
-                    default -> code = "ND";
-                }
+            code += String.format("%04d", random.nextInt(10000));
+            duplicate = Database.checkItemCode(code);
 
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT CODE FROM ITEM");
-
-                code += String.format("%04d", random.nextInt(10000));
-
-                while(rs.next()){
-                    codeResult = rs.getString("CODE");
-
-                    if(code.equals(codeResult)){
-                        duplicate = true;
-                        code = "";
-                        break;
-                    }
-                }
-            }while(duplicate == true);
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
+        }while(duplicate);
         return code;
     }
 }

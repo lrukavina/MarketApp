@@ -17,7 +17,7 @@ public class Database {
 
     private static final String CONFIG_FILE = "src/database/config.properties";
 
-    public static Connection openConnection() {
+    private static Connection openConnection() {
         Properties properties = new Properties();
         Connection connection = null;
 
@@ -143,5 +143,29 @@ public class Database {
         }
         closeConnection(connection);
         return items;
+    }
+
+    public static Boolean checkItemCode(String code) throws SQLException {
+        String codeResult = "";
+
+        Connection connection = openConnection();
+
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT CODE FROM ITEM");
+
+        while(rs.next()){
+            codeResult = rs.getString("code");
+
+            if(code.equals(codeResult)){
+                closeConnection(connection);
+                return true;
+            }
+            else {
+                closeConnection(connection);
+                return false;
+            }
+        }
+        closeConnection(connection);
+        return false;
     }
 }
