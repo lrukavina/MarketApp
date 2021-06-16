@@ -45,8 +45,6 @@ public class LoginController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        System.out.println(PasswordEncoder.encodePassword("123"));
     }
 
     @FXML
