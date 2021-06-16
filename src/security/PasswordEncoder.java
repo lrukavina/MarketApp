@@ -13,7 +13,7 @@ public class PasswordEncoder {
         return decodedString;
     }
 
-    public String encodePassword(String password){
+    public static String encodePassword(String password){
         String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
         return encodedPassword;
     }

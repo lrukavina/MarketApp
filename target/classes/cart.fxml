@@ -10,12 +10,12 @@
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <bottom>
-            <TableView fx:id="articleTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="itemTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="articleNameColumn" prefWidth="226.0" text="Name:" />
-                <TableColumn fx:id="articleTypeColumn" prefWidth="128.0" text="Type:" />
-                  <TableColumn fx:id="articleQuantityColumn" prefWidth="96.0" text="Quantity:" />
-                  <TableColumn fx:id="articlePriceColumn" prefWidth="149.0" text="Price:" />
+                <TableColumn fx:id="itemNameColumn" prefWidth="226.0" text="Name:" />
+                <TableColumn fx:id="itemTypeColumn" prefWidth="128.0" text="Type:" />
+                  <TableColumn fx:id="itemQuantityColumn" prefWidth="96.0" text="Quantity:" />
+                  <TableColumn fx:id="itemPriceColumn" prefWidth="149.0" text="Price:" />
               </columns>
             </TableView>
          </bottom>

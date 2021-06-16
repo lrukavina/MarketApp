@@ -1,7 +1,7 @@
 package database;
 
-import enumeration.ArticleType;
-import model.Article;
+import enumeration.ItemType;
+import model.Item;
 import model.User;
 import security.PasswordEncoder;
 
@@ -44,33 +44,33 @@ public class Database {
         }
     }
 
-    public static List<Article> fetchAllArticles() throws SQLException{
-        List<Article> articles = new ArrayList<>();
+    public static List<Item> fetchAllItems() throws SQLException{
+        List<Item> items = new ArrayList<>();
 
         Connection connection = openConnection();
 
         Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM ARTICLE");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM ITEM");
 
         while (rs.next()){
             long id = rs.getLong("id");
             String name = rs.getString("name");
-            String articleTypeString = rs.getString("type");
+            String itemTypeString = rs.getString("type");
 
-            ArticleType articleType = null;
-            switch (articleTypeString){
+            ItemType itemType = null;
+            switch (itemTypeString){
                 case "Food":
-                    articleType = ArticleType.FOOD;
+                    itemType = ItemType.FOOD;
             }
 
             Integer quantity = rs.getInt("quantity");
             BigDecimal price = rs.getBigDecimal("price");
 
-            Article article = new Article(id, name, articleType, quantity, price);
-            articles.add(article);
+            Item item = new Item(id, name, itemType, quantity, price);
+            items.add(item);
         }
         closeConnection(connection);
-        return articles;
+        return items;
     }
 
     public static List<User> fetchAllUsers() throws SQLException{
@@ -105,13 +105,13 @@ public class Database {
         closeConnection(connection);
     }
 
-    public static List<Article> fetchUserArticles(Long userId) throws SQLException{
-        List<Article> articles = new ArrayList<>();
+    public static List<Item> fetchUserItems(Long userId) throws SQLException{
+        List<Item> items = new ArrayList<>();
 
         Connection connection = openConnection();
 
-        PreparedStatement stmt = connection.prepareStatement("SELECT ARTICLE.* FROM ARTICLE INNER JOIN\n" +
-                "USER_ARTICLE ON ARTICLE.ID = ARTICLE_ID INNER JOIN\n" +
+        PreparedStatement stmt = connection.prepareStatement("SELECT ITEM.* FROM ITEM INNER JOIN\n" +
+                "USER_ITEM ON ITEM.ID = ITEM_ID INNER JOIN\n" +
                 "USER ON USER_ID = USER.ID\n" +
                 "WHERE USER.ID = ?");
         stmt.setLong(1, userId);
@@ -121,21 +121,21 @@ public class Database {
         while (rs.next()){
             long id = rs.getLong("id");
             String name = rs.getString("name");
-            String articleTypeString = rs.getString("type");
+            String itemTypeString = rs.getString("type");
 
-            ArticleType articleType = null;
-            switch (articleTypeString){
+            ItemType itemType = null;
+            switch (itemTypeString){
                 case "Food":
-                    articleType = ArticleType.FOOD;
+                    itemType = ItemType.FOOD;
             }
 
             Integer quantity = rs.getInt("quantity");
             BigDecimal price = rs.getBigDecimal("price");
 
-            Article article = new Article(id, name, articleType, quantity, price);
-            articles.add(article);
+            Item item = new Item(id, name, itemType, quantity, price);
+            items.add(item);
         }
         closeConnection(connection);
-        return articles;
+        return items;
     }
 }

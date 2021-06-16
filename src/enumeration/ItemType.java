@@ -1,12 +1,12 @@
 package enumeration;
 
-public enum ArticleType {
+public enum ItemType {
 
     FOOD("Food");
 
     private String description;
 
-    ArticleType(String description) {
+    ItemType(String description) {
         this.description = description;
     }
 

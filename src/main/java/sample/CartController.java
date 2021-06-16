@@ -1,7 +1,7 @@
 package main.java.sample;
 
 import database.Database;
-import enumeration.ArticleType;
+import enumeration.ItemType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,7 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.Article;
+import model.Item;
 import model.User;
 
 import java.math.BigDecimal;
@@ -21,45 +21,45 @@ import java.util.ResourceBundle;
 
 public class CartController implements Initializable {
 
-    private static ObservableList<Article> articleObservableList;
+    private static ObservableList<Item> itemObservableList;
     private User currentUser;
 
     @FXML
-    List<Article> articles = new ArrayList<>();
+    List<Item> items = new ArrayList<>();
 
     @FXML
-    private TableView<Article> articleTableView;
+    private TableView<Item> itemTableView;
 
     @FXML
-    private TableColumn<Article, String> articleNameColumn;
+    private TableColumn<Item, String> itemNameColumn;
 
     @FXML
-    private TableColumn<Article, ArticleType> articleTypeColumn;
+    private TableColumn<Item, ItemType> itemTypeColumn;
 
     @FXML
-    private TableColumn<Article, Integer> articleQuantityColumn;
+    private TableColumn<Item, Integer> itemQuantityColumn;
 
     @FXML
-    private TableColumn<Article, BigDecimal> articlePriceColumn;
+    private TableColumn<Item, BigDecimal> itemPriceColumn;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        articleNameColumn.setCellValueFactory(new PropertyValueFactory<Article, String>("name"));
-        articleTypeColumn.setCellValueFactory(new PropertyValueFactory<Article, ArticleType>("articleType"));
-        articleQuantityColumn.setCellValueFactory(new PropertyValueFactory<Article, Integer>("quantity"));
-        articlePriceColumn.setCellValueFactory(new PropertyValueFactory<Article, BigDecimal>("price"));
+        itemNameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+        itemTypeColumn.setCellValueFactory(new PropertyValueFactory<Item, ItemType>("itemType"));
+        itemQuantityColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
+        itemPriceColumn.setCellValueFactory(new PropertyValueFactory<Item, BigDecimal>("price"));
 
-        if(articleObservableList == null){
-            articleObservableList = FXCollections.observableArrayList();
+        if(itemObservableList == null){
+            itemObservableList = FXCollections.observableArrayList();
         }
     }
 
     public void initUser(User user) throws SQLException {
         currentUser = user;
-        articles = Database.fetchUserArticles(currentUser.getId());
-        articleObservableList.addAll(articles);
-        articleTableView.setItems(articleObservableList);
+        items = Database.fetchUserItems(currentUser.getId());
+        itemObservableList.addAll(items);
+        itemTableView.setItems(itemObservableList);
     }
 
 }
