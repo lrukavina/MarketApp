@@ -1,8 +1,13 @@
 package model;
 
+import database.Database;
 import enumeration.ItemType;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Random;
 
 public class Item {
@@ -91,14 +96,41 @@ public class Item {
                 '}';
     }
 
-    private String generateCode(ItemType itemType){
-        String code = "";
+    private String generateCode(ItemType itemType) {
+        String  code = "", codeResult = "";
         Random random = new Random();
 
-        switch (itemType){
-            case FOOD -> code = "FD";
+
+        boolean duplicate = false;
+        try {
+            Connection connection = Database.openConnection();
+
+            do{
+                switch (itemType) {
+                    case FOOD -> code = "FD";
+                    default -> code = "ND";
+                }
+
+                Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT CODE FROM ITEM");
+
+                code += String.format("%04d", random.nextInt(10000));
+
+                while(rs.next()){
+                    codeResult = rs.getString("CODE");
+
+                    if(code.equals(codeResult)){
+                        duplicate = true;
+                        code = "";
+                        break;
+                    }
+                }
+            }while(duplicate == true);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
-        return code += String.format("%04d", random.nextInt(10000));
+        return code;
     }
 }
