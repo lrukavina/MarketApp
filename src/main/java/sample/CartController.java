@@ -34,6 +34,9 @@ public class CartController implements Initializable {
     private TableColumn<Item, String> itemNameColumn;
 
     @FXML
+    private TableColumn<Item, String> itemCodeColumn;
+
+    @FXML
     private TableColumn<Item, ItemType> itemTypeColumn;
 
     @FXML
@@ -46,6 +49,7 @@ public class CartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         itemNameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+        itemCodeColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("code"));
         itemTypeColumn.setCellValueFactory(new PropertyValueFactory<Item, ItemType>("itemType"));
         itemQuantityColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
         itemPriceColumn.setCellValueFactory(new PropertyValueFactory<Item, BigDecimal>("price"));

@@ -55,6 +55,7 @@ public class Database {
         while (rs.next()){
             long id = rs.getLong("id");
             String name = rs.getString("name");
+            String code = rs.getString("code");
             String itemTypeString = rs.getString("type");
 
             ItemType itemType = null;
@@ -66,7 +67,7 @@ public class Database {
             Integer quantity = rs.getInt("quantity");
             BigDecimal price = rs.getBigDecimal("price");
 
-            Item item = new Item(id, name, itemType, quantity, price);
+            Item item = new Item(id, name, code, itemType, quantity, price);
             items.add(item);
         }
         closeConnection(connection);
@@ -110,8 +111,8 @@ public class Database {
 
         Connection connection = openConnection();
 
-        PreparedStatement stmt = connection.prepareStatement("SELECT ITEM.* FROM ITEM INNER JOIN\n" +
-                "USER_ITEM ON ITEM.ID = ITEM_ID INNER JOIN\n" +
+        PreparedStatement stmt = connection.prepareStatement("SELECT SELECTED_ITEM.* FROM SELECTED_ITEM INNER JOIN\n" +
+                "USER_SELECTED_ITEM ON SELECTED_ITEM.ID = SELECTED_ITEM_ID INNER JOIN\n" +
                 "USER ON USER_ID = USER.ID\n" +
                 "WHERE USER.ID = ?");
         stmt.setLong(1, userId);
@@ -121,6 +122,7 @@ public class Database {
         while (rs.next()){
             long id = rs.getLong("id");
             String name = rs.getString("name");
+            String code = rs.getString("code");
             String itemTypeString = rs.getString("type");
 
             ItemType itemType = null;
@@ -132,7 +134,7 @@ public class Database {
             Integer quantity = rs.getInt("quantity");
             BigDecimal price = rs.getBigDecimal("price");
 
-            Item item = new Item(id, name, itemType, quantity, price);
+            Item item = new Item(id, name, code, itemType, quantity, price);
             items.add(item);
         }
         closeConnection(connection);

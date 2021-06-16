@@ -7,14 +7,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.LoginController">
    <children>
       <Label layoutX="228.0" layoutY="130.0" text="Username:" />
       <Label layoutX="230.0" layoutY="192.0" text="Password:" />
-      <Button layoutX="277.0" layoutY="273.0" mnemonicParsing="false" onAction="#login" text="Login" />
+      <Button layoutX="278.0" layoutY="278.0" mnemonicParsing="false" onAction="#login" text="Login" />
       <PasswordField fx:id="passwordTextField" layoutX="300.0" layoutY="188.0" />
-      <TextField fx:id="usernameTextField" layoutX="300.0" layoutY="126.0" />
-      <Button layoutX="248.0" layoutY="313.0" mnemonicParsing="false" onAction="#registerAccount" text="Register account" />
-      <Text layoutX="256.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login to account" />
+      <TextField fx:id="usernameTextField" layoutX="301.0" layoutY="126.0" />
+      <Button layoutX="249.0" layoutY="312.0" mnemonicParsing="false" onAction="#registerAccount" text="Register account" />
+      <Text layoutX="256.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login to account" />
    </children>
 </AnchorPane>

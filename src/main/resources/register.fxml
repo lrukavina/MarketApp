@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.RegisterController">
+<AnchorPane prefHeight="400.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.RegisterController">
     <children>
-        <Label layoutX="228.0" layoutY="130.0" text="Username:" />
-        <Label layoutX="230.0" layoutY="192.0" text="Password:" />
-        <Button layoutX="277.0" layoutY="281.0" mnemonicParsing="false" onAction="#registerAccount" text="Register" />
-        <PasswordField fx:id="passwordField" layoutX="300.0" layoutY="188.0" />
-        <TextField fx:id="usernameTextField" layoutX="300.0" layoutY="126.0" />
-      <Text layoutX="250.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register new account" />
+        <Label layoutX="238.0" layoutY="130.0" text="Username:" />
+        <Label layoutX="240.0" layoutY="192.0" text="Password:" />
+        <Button layoutX="287.0" layoutY="281.0" mnemonicParsing="false" onAction="#registerAccount" text="Register" />
+        <PasswordField fx:id="passwordField" layoutX="310.0" layoutY="188.0" />
+        <TextField fx:id="usernameTextField" layoutX="310.0" layoutY="126.0" />
+      <Text layoutX="260.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register new account" />
     </children>
 </AnchorPane>

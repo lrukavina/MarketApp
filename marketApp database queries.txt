@@ -1,15 +1,34 @@
+DROP TABLE IF EXISTS ITEM;
+DROP TABLE IF EXISTS USER;
+DROP TABLE IF EXISTS USER_ITEM;
+
 CREATE TABLE IF NOT EXISTS ITEM(
 id identity,
 name varchar(50) not null,
+code varchar(6) not null,
 type varchar(50) not null,
 quantity integer,
 price number
 );
 
-INSERT INTO ITEM(NAME, TYPE, QUANTITY, PRICE)VALUES
-('Apple', 'Food', 2, 22.5),
-('Banana',  'Food', 1 , 10);
+INSERT INTO ITEM(NAME, CODE, TYPE, QUANTITY, PRICE)VALUES
+('Apple', 'FD4689', 'Food', 2, 22.5),
+('Banana', 'FD7515', 'Food', 1 , 10),
+('Pear', 'FD9124', 'Food', 1, 5);
 
+
+CREATE TABLE IF NOT EXISTS SELECTED_ITEM(
+id identity,
+name varchar(50) not null,
+code varchar(6) not null,
+type varchar(50) not null,
+quantity integer,
+price number
+);
+
+INSERT INTO SELECTED_ITEM(NAME, CODE, TYPE, QUANTITY, PRICE)VALUES
+('Apple', 'FD4689', 'Food', 2, 22.5),
+('Banana', 'FD7515', 'Food', 1 , 10);
 
 CREATE TABLE IF NOT EXISTS USER(
 id identity, 
@@ -20,20 +39,20 @@ password varchar(255) not null
 INSERT INTO USER (USERNAME, PASSWORD)VALUES
 ('admin', 'MTIz');
 
-CREATE TABLE IF NOT EXISTS USER_ITEM(
+CREATE TABLE IF NOT EXISTS USER_SELECTED_ITEM(
 user_id bigint not null,
-item_id bigint not null,
+selected_item_id bigint not null,
 constraint fk_user foreign key (user_id) references user(id),
-constraint fk_item foreign key (item_id) references item(id)
+constraint fk_item foreign key (selected_item_id) references selected_item(id)
 );
 
-INSERT INTO USER_ITEM(USER_ID, ITEM_ID) VALUES
-(1, 1);
+INSERT INTO USER_SELECTED_ITEM(USER_ID, SELECTED_ITEM_ID) VALUES
+(1, 1),
 (1, 2);
 
 
-///QUERY TO FETCH ITEM FOR USER ID
-SELECT ITEM.* FROM ITEM INNER JOIN
-USER_ITEM ON ITEM.ID = ITEM_ID INNER JOIN
+///QUERY TO FETCH SELECTED ITEM FOR USER ID
+SELECT SELECTED_ITEM.* FROM SELECTED_ITEM INNER JOIN
+USER_SELECTED_ITEM ON SELECTED_ITEM.ID = SELECTED_ITEM_ID INNER JOIN
 USER ON USER_ID = USER.ID
 WHERE USER.ID = ?
