@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS ITEM;
+DROP TABLE IF EXISTS SELECTED_ITEM;
 DROP TABLE IF EXISTS USER;
-DROP TABLE IF EXISTS USER_ITEM;
+DROP TABLE IF EXISTS USER_SELECTED_ITEM;
 
 CREATE TABLE IF NOT EXISTS ITEM(
 id identity,
@@ -31,13 +32,15 @@ INSERT INTO SELECTED_ITEM(NAME, CODE, TYPE, QUANTITY, PRICE)VALUES
 ('Banana', 'FD7515', 'Food', 1 , 10);
 
 CREATE TABLE IF NOT EXISTS USER(
-id identity, 
+id identity,
+name varchar(25) not null,
+surname varchar(25) not null, 
 username varchar(50) not null,
 password varchar(255) not null
 );
 
-INSERT INTO USER (USERNAME, PASSWORD)VALUES
-('admin', 'MTIz');
+INSERT INTO USER (NAME, SURNAME, USERNAME, PASSWORD)VALUES
+('admin name', 'admin surname' ,'admin', 'MTIz');
 
 CREATE TABLE IF NOT EXISTS USER_SELECTED_ITEM(
 user_id bigint not null,

@@ -22,6 +22,12 @@ import java.util.ResourceBundle;
 public class RegisterController implements Initializable {
 
     @FXML
+    private TextField nameTextField;
+
+    @FXML
+    private TextField surnameTextField;
+
+    @FXML
     private TextField usernameTextField;
 
     @FXML
@@ -40,24 +46,65 @@ public class RegisterController implements Initializable {
 
     @FXML
     public void registerAccount() throws SQLException, IOException {
+        String nameText = nameTextField.getText();
+        String surnameText = surnameTextField.getText();
         String usernameText = usernameTextField.getText();
         String passwordText = passwordField.getText();
         Boolean userExists = false;
+        Boolean registrationFailed = false;
 
-        for(User user: users){
-            if(user.getUsername().equals(usernameText)){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("User already registered");
-                alert.setHeaderText("Username taken");
-                alert.setContentText("User with that username is already registered. Please pick another username");
-                alert.showAndWait();
-                userExists = true;
-                break;
+        if(nameText.isEmpty() || surnameText.isEmpty() || usernameText.isEmpty() || passwordText.isEmpty()){
+            registrationFailed = true;
+
+            if(nameText.isEmpty()){
+                nameTextField.setPromptText("Please fill up this field");
+                nameTextField.setStyle("-fx-text-box-border: red;");
+            }
+            else{
+                nameTextField.setStyle("-fx-text-box-border: black;");
+            }
+
+            if(surnameText.isEmpty()){
+                surnameTextField.setPromptText("Please fill up this field");
+                surnameTextField.setStyle("-fx-text-box-border: red;");
+            }
+            else{
+                surnameTextField.setStyle("-fx-text-box-border: black;");
+            }
+
+            if(usernameText.isEmpty()){
+                usernameTextField.setPromptText("Please fill up this field");
+                usernameTextField.setStyle("-fx-text-box-border: red;");
+            }
+            else{
+                usernameTextField.setStyle("-fx-text-box-border: black;");
+            }
+
+            if(passwordText.isEmpty()){
+                passwordField.setPromptText("Please fill up this field");
+                passwordField.setStyle("-fx-text-box-border: red;");
+            }
+            else{
+                passwordField.setStyle("-fx-text-box-border: black;");
+            }
+        }
+        else{
+            for(User user: users){
+                if(user.getUsername().equals(usernameText)){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("User already registered");
+                    alert.setHeaderText("Username taken");
+                    alert.setContentText("User with that username is already registered. Please pick another username");
+                    alert.showAndWait();
+                    userExists = true;
+                    registrationFailed = true;
+                    break;
+                }
             }
         }
 
-        if(!userExists){
-            User user = new User(usernameText, passwordText);
+        if(!userExists && !registrationFailed){
+            User user = new User(nameText, surnameText, usernameText, passwordText);
             Database.registerUser(user);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
