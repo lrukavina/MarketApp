@@ -2,7 +2,8 @@ package enumeration;
 
 public enum ItemType {
 
-    FOOD("Food");
+    FOOD("Food"),
+    ELECTRONICS("Electronics");
 
     private String description;
 

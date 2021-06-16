@@ -99,13 +99,13 @@ public class Item {
     private String generateCode(ItemType itemType) throws SQLException {
         String  code;
         Random random = new Random();
-        Boolean duplicate = false;
-
+        Boolean duplicate;
 
         do{
             code = "";
             switch (itemType) {
                 case FOOD -> code = "FD";
+                case ELECTRONICS -> code = "ES";
                 default -> code = "ND";
             }
 

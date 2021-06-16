@@ -61,7 +61,9 @@ public class Database {
             ItemType itemType = null;
             switch (itemTypeString){
                 case "Food":
-                    itemType = ItemType.FOOD;
+                    itemType = ItemType.FOOD; break;
+                case "Electronics":
+                    itemType = ItemType.ELECTRONICS; break;
             }
 
             Integer quantity = rs.getInt("quantity");
@@ -132,7 +134,9 @@ public class Database {
             ItemType itemType = null;
             switch (itemTypeString){
                 case "Food":
-                    itemType = ItemType.FOOD;
+                    itemType = ItemType.FOOD; break;
+                case "Electronics":
+                    itemType = ItemType.ELECTRONICS; break;
             }
 
             Integer quantity = rs.getInt("quantity");

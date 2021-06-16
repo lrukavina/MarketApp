@@ -15,7 +15,8 @@ price number
 INSERT INTO ITEM(NAME, CODE, TYPE, QUANTITY, PRICE)VALUES
 ('Apple', 'FD4689', 'Food', 2, 22.5),
 ('Banana', 'FD7515', 'Food', 1 , 10),
-('Pear', 'FD9124', 'Food', 1, 5);
+('Pear', 'FD9124', 'Food', 1, 5),
+('IphoneX', 'ES1712', 'Electronics', 1, 500);
 
 
 CREATE TABLE IF NOT EXISTS SELECTED_ITEM(
@@ -29,7 +30,8 @@ price number
 
 INSERT INTO SELECTED_ITEM(NAME, CODE, TYPE, QUANTITY, PRICE)VALUES
 ('Apple', 'FD4689', 'Food', 2, 22.5),
-('Banana', 'FD7515', 'Food', 1 , 10);
+('Banana', 'FD7515', 'Food', 1 , 10),
+('Iphone X', 'ES1712', 'Electronics', 1, 500);
 
 CREATE TABLE IF NOT EXISTS USER(
 id identity,
@@ -51,7 +53,8 @@ constraint fk_item foreign key (selected_item_id) references selected_item(id)
 
 INSERT INTO USER_SELECTED_ITEM(USER_ID, SELECTED_ITEM_ID) VALUES
 (1, 1),
-(1, 2);
+(1, 2),
+(1, 3);
 
 
 ///QUERY TO FETCH SELECTED ITEM FOR USER ID
