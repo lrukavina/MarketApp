@@ -1,6 +1,7 @@
 package database;
 
 import enumeration.ItemType;
+import enumeration.UserType;
 import model.Item;
 import model.User;
 import security.PasswordEncoder;
@@ -88,10 +89,20 @@ public class Database {
             Long id = rs.getLong("id");
             String name = rs.getString("name");
             String surname = rs.getString("surname");
+            String userTypeString = rs.getString("type");
+
+            UserType userType = null;
+            switch (userTypeString){
+                case "Admin":
+                    userType = UserType.ADMIN; break;
+                case "User":
+                    userType = UserType.USER; break;
+            }
+
             String username = rs.getString("username");
             String password = rs.getString("password");
 
-            User user = new User(id, name, surname, username, password);
+            User user = new User(id, name, surname, userType, username, password);
             users.add(user);
         }
         closeConnection(connection);
@@ -102,11 +113,12 @@ public class Database {
         Connection connection = openConnection();
         PasswordEncoder passwordEncoder = new PasswordEncoder();
 
-        PreparedStatement stmt = connection.prepareStatement("INSERT INTO USER (NAME, SURNAME, USERNAME, PASSWORD) VALUES (?,?,?,?)");
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO USER (NAME, SURNAME, TYPE, USERNAME, PASSWORD) VALUES (?,?,?,?,?)");
         stmt.setString(1, user.getName());
         stmt.setString(2, user.getSurname());
-        stmt.setString(3, user.getUsername());
-        stmt.setString(4, passwordEncoder.encodePassword(user.getPassword()));
+        stmt.setString(3, user.getUserType().getDescription());
+        stmt.setString(4, user.getUsername());
+        stmt.setString(5, passwordEncoder.encodePassword(user.getPassword()));
 
         stmt.executeUpdate();
         closeConnection(connection);

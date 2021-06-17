@@ -1,12 +1,14 @@
 package main.java.sample;
 
 import database.Database;
+import enumeration.UserType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import model.User;
@@ -33,10 +35,17 @@ public class RegisterController implements Initializable {
     @FXML
     private PasswordField passwordField;
 
+    @FXML
+    private ChoiceBox<String> userTypeChoiceBox;
+
     List<User> users = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        userTypeChoiceBox.getItems().addAll("Admin", "User");
+        userTypeChoiceBox.setValue("Admin");
+
         try {
             users = Database.fetchAllUsers();
         } catch (SQLException throwables) {
@@ -50,6 +59,8 @@ public class RegisterController implements Initializable {
         String surnameText = surnameTextField.getText();
         String usernameText = usernameTextField.getText();
         String passwordText = passwordField.getText();
+        UserType userType = fetchUserType(userTypeChoiceBox);
+
         Boolean userExists = false;
         Boolean registrationFailed = false;
 
@@ -104,7 +115,7 @@ public class RegisterController implements Initializable {
         }
 
         if(!userExists && !registrationFailed){
-            User user = new User(nameText, surnameText, usernameText, passwordText);
+            User user = new User(nameText, surnameText, userType, usernameText, passwordText);
             Database.registerUser(user);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -118,5 +129,19 @@ public class RegisterController implements Initializable {
             Scene loginScene = new Scene(loginFrame, 600, 400);
             Main.getMainStage().setScene(loginScene);
         }
+    }
+
+    UserType fetchUserType(ChoiceBox<String> userTypeChoiceBox){
+        String userTypeString = userTypeChoiceBox.getValue();
+
+        UserType userType = null;
+        switch (userTypeString){
+            case "Admin":
+                userType = UserType.ADMIN; break;
+            case "User":
+                userType = UserType.USER; break;
+        }
+
+        return userType;
     }
 }

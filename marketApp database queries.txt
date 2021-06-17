@@ -20,13 +20,14 @@ INSERT INTO ITEM(NAME, CODE, TYPE, QUANTITY, PRICE)VALUES
 CREATE TABLE IF NOT EXISTS USER(
 id identity,
 name varchar(25) not null,
-surname varchar(25) not null, 
+surname varchar(25) not null,
+type varchar(25) not null, 
 username varchar(50) not null,
 password varchar(255) not null
 );
 
-INSERT INTO USER (NAME, SURNAME, USERNAME, PASSWORD)VALUES
-('admin name', 'admin surname' ,'admin', 'MTIz');
+INSERT INTO USER (NAME, SURNAME, TYPE, USERNAME, PASSWORD)VALUES
+('admin name', 'admin surname', 'Admin' ,'admin', 'MTIz');
 
 CREATE TABLE IF NOT EXISTS USER_ITEM(
 user_id bigint not null,
