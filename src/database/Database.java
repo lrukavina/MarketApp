@@ -117,8 +117,8 @@ public class Database {
 
         Connection connection = openConnection();
 
-        PreparedStatement stmt = connection.prepareStatement("SELECT SELECTED_ITEM.* FROM SELECTED_ITEM INNER JOIN\n" +
-                "USER_SELECTED_ITEM ON SELECTED_ITEM.ID = SELECTED_ITEM_ID INNER JOIN\n" +
+        PreparedStatement stmt = connection.prepareStatement("SELECT ITEM.* FROM ITEM INNER JOIN\n" +
+                "USER_ITEM ON ITEM.ID = ITEM_ID INNER JOIN\n" +
                 "USER ON USER_ID = USER.ID\n" +
                 "WHERE USER.ID = ?");
         stmt.setLong(1, userId);

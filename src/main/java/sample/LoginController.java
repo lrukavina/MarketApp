@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -34,6 +35,7 @@ public class LoginController implements Initializable {
 
     private List<User> users = new ArrayList<>();
 
+
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -45,7 +47,6 @@ public class LoginController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
 
     @FXML
