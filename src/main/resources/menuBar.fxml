@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+
+<MenuBar prefHeight="25.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.MainMenuController">
+   <menus>
+      <Menu mnemonicParsing="false" text="Home">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Main Menu" />
+            <MenuItem mnemonicParsing="false" text="Placeholder" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Cart">
+         <items>
+            <MenuItem mnemonicParsing="true" onAction="#showCart" text="Show Cart" />
+            <MenuItem mnemonicParsing="false" text="Placeholder" />
+         </items>
+      </Menu>
+   </menus>
+</MenuBar>
