@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 public class CartController implements Initializable {
 
-    private static ObservableList<Item> itemObservableList = FXCollections.observableArrayList();;
+    private static ObservableList<Item> itemObservableList;
     private User currentUser;
 
     @FXML
@@ -57,6 +57,7 @@ public class CartController implements Initializable {
     }
 
     public void initUser(User user) throws SQLException {
+        itemObservableList = FXCollections.observableArrayList();
         currentUser = user;
         items = Database.fetchUserItems(currentUser.getId());
         itemObservableList.addAll(items);

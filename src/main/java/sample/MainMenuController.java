@@ -51,21 +51,28 @@ public class MainMenuController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("cart.fxml"));
         root = loader.load();
 
-
         CartController cartController = loader.getController();
         cartController.initUser(currentUser);
-
 
         Parent cartFrame =
                 FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
                         "cart.fxml")));
         Scene cartScene = new Scene(cartFrame, 650, 400);
         Main.getMainStage().setScene(cartScene);
+    }
 
-        /*stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Cart");
-        stage.show();*/
+    @FXML
+    public void showMain(ActionEvent event) throws SQLException, IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("mainMenu.fxml"));
+        root = loader.load();
+
+        MainMenuController mainMenuController = loader.getController();
+        mainMenuController.initUser(currentUser);
+
+        Parent mainMenuFrame =
+                FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                        "mainMenu.fxml")));
+        Scene mainMenuScene = new Scene(mainMenuFrame, 650, 400);
+        Main.getMainStage().setScene(mainMenuScene);
     }
 }

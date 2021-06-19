@@ -53,7 +53,7 @@ public class LoginController implements Initializable {
     @FXML
     public void registerAccount() throws IOException{
         Parent registerFrame =
-                FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
+                FXMLLoader.load(getClass().getClassLoader().getResource("registration.fxml"));
         Scene registerScene = new Scene(registerFrame, 650, 400);
         Main.getMainStage().setScene(registerScene);
     }

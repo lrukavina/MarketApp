@@ -8,6 +8,9 @@
 <AnchorPane prefHeight="401.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.CartController">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="650.0">
+          <top>
+              <fx:include fx:id="menuBar" source="menuBar.fxml" />
+          </top>
          <bottom>
             <TableView fx:id="itemTableView" prefHeight="200.0" prefWidth="639.0" BorderPane.alignment="CENTER">
               <columns>

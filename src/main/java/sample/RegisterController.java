@@ -19,9 +19,12 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
+
+    private Parent root;
 
     @FXML
     private TextField nameTextField;
@@ -129,6 +132,20 @@ public class RegisterController implements Initializable {
             Scene loginScene = new Scene(loginFrame, 600, 400);
             Main.getMainStage().setScene(loginScene);
         }
+    }
+
+    @FXML
+    private void showLogin() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("login.fxml"));
+        root = loader.load();
+
+        LoginController loginController = loader.getController();
+
+        Parent loginFrame =
+                FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                        "login.fxml")));
+        Scene loginScene = new Scene(loginFrame, 650, 400);
+        Main.getMainStage().setScene(loginScene);
     }
 
     UserType fetchUserType(ChoiceBox<String> userTypeChoiceBox){
