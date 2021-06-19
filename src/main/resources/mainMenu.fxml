@@ -12,7 +12,7 @@
             <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to MarketApp" BorderPane.alignment="CENTER" />
          </center>
          <top>
-            <Button mnemonicParsing="false" onAction="#viewCart" text="View cart" BorderPane.alignment="CENTER" />
+            <fx:include fx:id="menuBar" source="menuBar.fxml" />
          </top>
       </BorderPane>
    </children>

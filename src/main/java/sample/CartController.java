@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 public class CartController implements Initializable {
 
-    private static ObservableList<Item> itemObservableList;
+    private static ObservableList<Item> itemObservableList = FXCollections.observableArrayList();;
     private User currentUser;
 
     @FXML
@@ -53,17 +53,13 @@ public class CartController implements Initializable {
         itemTypeColumn.setCellValueFactory(new PropertyValueFactory<Item, ItemType>("itemType"));
         itemQuantityColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
         itemPriceColumn.setCellValueFactory(new PropertyValueFactory<Item, BigDecimal>("price"));
-
-        if(itemObservableList == null){
-            itemObservableList = FXCollections.observableArrayList();
-        }
+        itemTableView.setItems(itemObservableList);
     }
 
     public void initUser(User user) throws SQLException {
         currentUser = user;
         items = Database.fetchUserItems(currentUser.getId());
         itemObservableList.addAll(items);
-        itemTableView.setItems(itemObservableList);
     }
 
 }

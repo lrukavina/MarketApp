@@ -22,6 +22,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -91,11 +92,17 @@ public class LoginController implements Initializable {
                     MainMenuController mainMenuController = loader.getController();
                     mainMenuController.initUser(user);
 
-                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    Parent MainMenuFrame =
+                            FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                                    "mainMenu.fxml")));
+                    Scene MainMenuScene = new Scene(MainMenuFrame, 650, 400);
+                    Main.getMainStage().setScene(MainMenuScene);
+
+                    /*stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                     scene = new Scene(root);
                     stage.setScene(scene);
                     stage.setTitle("Market");
-                    stage.show();
+                    stage.show();*/
                     userFound = true;
                 }
             }
