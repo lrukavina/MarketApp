@@ -9,7 +9,7 @@
       <Menu mnemonicParsing="false" text="Home">
          <items>
             <MenuItem mnemonicParsing="false" onAction="#showMain" text="Main Menu" />
-            <MenuItem mnemonicParsing="false" text="Placeholder" />
+            <MenuItem mnemonicParsing="false" onAction="#logOut" text="Logout" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="Cart">

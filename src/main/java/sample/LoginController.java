@@ -96,6 +96,7 @@ public class LoginController implements Initializable {
                             FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
                                     "mainMenu.fxml")));
                     Scene MainMenuScene = new Scene(MainMenuFrame, 650, 400);
+                    Main.getMainStage().setTitle("MarketApp | Main menu");
                     Main.getMainStage().setScene(MainMenuScene);
 
                     /*stage = (Stage)((Node)event.getSource()).getScene().getWindow();

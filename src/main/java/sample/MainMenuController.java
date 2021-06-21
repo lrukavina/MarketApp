@@ -24,9 +24,6 @@ public class MainMenuController implements Initializable {
 
 
     private static User currentUser;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
 
     @FXML
     private Text welcomeText = new Text("Welcome");
@@ -47,9 +44,9 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void showCart(ActionEvent event) throws SQLException, IOException {
+    public void showCart() throws SQLException, IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("cart.fxml"));
-        root = loader.load();
+        loader.load();
 
         CartController cartController = loader.getController();
         cartController.initUser(currentUser);
@@ -58,13 +55,14 @@ public class MainMenuController implements Initializable {
                 FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
                         "cart.fxml")));
         Scene cartScene = new Scene(cartFrame, 650, 400);
+        Main.getMainStage().setTitle("MarketApp | Cart");
         Main.getMainStage().setScene(cartScene);
     }
 
     @FXML
-    public void showMain(ActionEvent event) throws SQLException, IOException {
+    public void showMain() throws SQLException, IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("mainMenu.fxml"));
-        root = loader.load();
+        loader.load();
 
         MainMenuController mainMenuController = loader.getController();
         mainMenuController.initUser(currentUser);
@@ -73,6 +71,17 @@ public class MainMenuController implements Initializable {
                 FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
                         "mainMenu.fxml")));
         Scene mainMenuScene = new Scene(mainMenuFrame, 650, 400);
+        Main.getMainStage().setTitle("MarketApp | Main menu");
         Main.getMainStage().setScene(mainMenuScene);
+    }
+
+    @FXML
+    public void logOut() throws IOException {
+        Parent loginFrame =
+                FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                        "login.fxml")));
+        Scene loginScene = new Scene(loginFrame, 650, 400);
+        Main.getMainStage().setTitle("MarketApp | Login");
+        Main.getMainStage().setScene(loginScene);
     }
 }
