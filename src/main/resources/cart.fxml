@@ -1,27 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="401.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.CartController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.CartController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="650.0">
+      <BorderPane prefHeight="600.0" prefWidth="800.0">
           <top>
               <fx:include fx:id="menuBar" source="menuBar.fxml" />
           </top>
          <bottom>
-            <TableView fx:id="itemTableView" prefHeight="200.0" prefWidth="639.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="itemTableView" prefHeight="180.0" prefWidth="800.0" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="itemNameColumn" prefWidth="226.0" text="Name:" />
                   <TableColumn fx:id="itemCodeColumn" prefWidth="75.0" text="Code:" />
-                <TableColumn fx:id="itemTypeColumn" prefWidth="128.0" text="Type:" />
+                <TableColumn fx:id="itemTypeColumn" prefWidth="198.0" text="Type:" />
                   <TableColumn fx:id="itemQuantityColumn" prefWidth="117.0" text="Quantity:" />
-                  <TableColumn fx:id="itemPriceColumn" prefWidth="128.0" text="Price:" />
+                  <TableColumn fx:id="itemPriceColumn" prefWidth="183.0" text="Price:" />
               </columns>
             </TableView>
          </bottom>
+         <right>
+            <TableView fx:id="selectedItemTableView" prefHeight="395.0" prefWidth="304.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="selectedItemNameColumn" prefWidth="147.0" text="Name:" />
+                <TableColumn fx:id="selectedItemCodeColumn" prefWidth="61.0" text="Code:" />
+                  <TableColumn fx:id="selectedItemPriceColumn" prefWidth="95.0" text="Price:" />
+              </columns>
+            </TableView>
+         </right>
+         <left>
+            <Label prefHeight="26.0" prefWidth="101.0" text="TOTAL:" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </left>
+         <center>
+            <Label fx:id="priceLabel" text="Label" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

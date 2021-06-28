@@ -27,9 +27,9 @@
       <Label layoutX="234.0" layoutY="312.0" text="User type:" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="650.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Log in">
+          <Menu mnemonicParsing="false" text="Login">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#showLogin" text="Log in" />
+              <MenuItem mnemonicParsing="false" onAction="#showLogin" text="Login" />
             </items>
           </Menu>
         </menus>

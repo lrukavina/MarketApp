@@ -54,7 +54,7 @@ public class MainMenuController implements Initializable {
         Parent cartFrame =
                 FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
                         "cart.fxml")));
-        Scene cartScene = new Scene(cartFrame, 650, 400);
+        Scene cartScene = new Scene(cartFrame, 800, 600);
         Main.getMainStage().setTitle("MarketApp | Cart");
         Main.getMainStage().setScene(cartScene);
     }
@@ -70,7 +70,7 @@ public class MainMenuController implements Initializable {
         Parent mainMenuFrame =
                 FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
                         "mainMenu.fxml")));
-        Scene mainMenuScene = new Scene(mainMenuFrame, 650, 400);
+        Scene mainMenuScene = new Scene(mainMenuFrame, 800, 600);
         Main.getMainStage().setTitle("MarketApp | Main menu");
         Main.getMainStage().setScene(mainMenuScene);
     }
