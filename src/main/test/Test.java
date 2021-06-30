@@ -1,9 +1,6 @@
 package main.test;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -20,21 +17,34 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test {
+
+    static List<Item> items = new ArrayList<>();
+
     public static void main(String[] args) throws SQLException, FileNotFoundException, DocumentException {
 
-        Item item = new Item(10L, "test", ItemType.ELECTRONICS, 1, BigDecimal.valueOf(1));
+        Item item = new Item(4L, "test", ItemType.ELECTRONICS, 1, BigDecimal.valueOf(1));
         User user = new User(1L, "Luka", "Rukavina", UserType.ADMIN, "admin","123" );
         System.out.println(item.getCode());
         System.out.println(user);
 
         Receipt receipt = Database.fetchAllReceipts().get(0);
 
+        items.add(item);
+        Receipt testReceipt = new Receipt(user, items, LocalDate.now(), LocalTime.now(), BigDecimal.valueOf(25));
+
+        //Database.saveReceipt(testReceipt);
+
         LocalDate localDate = LocalDate.now();
         LocalTime localTime = LocalTime.now();
-        String receiptName = localDate.toString() + "-" + localTime.getHour() + "-"
-                + localTime.getMinute() + "-" + localTime.getSecond();
+        /*String receiptName = localDate.toString() + "-" + localTime.getHour() + "-"
+                + localTime.getMinute() + "-" + localTime.getSecond();*/
+
+        String receiptName = "test";
         String fileName ="C:\\pdf\\" + "RT-" + receiptName +".pdf";
 
         Document document = new Document();
@@ -75,8 +85,27 @@ public class Test {
             table.addCell(receiptItem.getCode());
             table.addCell(receiptItem.getPrice().toString());
         }
+        table.addCell(" ");
+        table.addCell(" ");
+        table.addCell(" ");
+        table.addCell("TOTAL: ");
+        table.addCell(" ");
+        table.addCell(receipt.getPrice().toString());
 
         document.add(table);
+
+        paragraph.clear();
+        paragraph.add(" ");
+        document.add(paragraph);
+
+        paragraph.clear();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+        paragraph.add("Date: " + receipt.getDateIssued().format(dateFormatter));
+        document.add(paragraph);
+        paragraph.clear();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        paragraph.add("Time: "+ receipt.getTimeIssued().format(timeFormatter));
+        document.add(paragraph);
         document.close();
 
     }

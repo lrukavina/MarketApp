@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -193,7 +194,7 @@ public class Database {
         return receipts;
     }
 
-    public static List<Item> fetchReceiptItems(Long receiptId) throws SQLException {
+    private static List<Item> fetchReceiptItems(Long receiptId) throws SQLException {
         List<Item> items = new ArrayList<>();
 
         Connection connection = openConnection();
@@ -229,7 +230,7 @@ public class Database {
         return items;
     }
 
-    public static User fetchReceiptUser(Long userId) throws SQLException {
+    private static User fetchReceiptUser(Long userId) throws SQLException {
         User user = new User();
 
         Connection connection = openConnection();
@@ -260,6 +261,55 @@ public class Database {
         }
         closeConnection(connection);
         return user;
+    }
+
+    public static void saveReceipt(Receipt receipt) throws SQLException {
+        Connection connection = openConnection();
+
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO RECEIPT(USER_ID, DATE_ISSUED, TIME_ISSUED, PRICE)" +
+                "VALUES (?,?,?,?)");
+
+        stmt.setLong(1, receipt.getUser().getId());
+        stmt.setDate(2, Date.valueOf(receipt.getDateIssued()));
+        stmt.setTime(3, Time.valueOf(receipt.getTimeIssued()));
+        stmt.setBigDecimal(4, receipt.calculatePrice());
+
+        stmt.executeUpdate();
+        Long receiptId = fetchLastReceiptId();
+
+        for (Item item: receipt.getItems()){
+            saveReceiptItem(receiptId, item.getId());
+        }
+
+        closeConnection(connection);
+    }
+
+    private static void saveReceiptItem(Long receiptId, Long itemId) throws SQLException {
+        Connection connection = openConnection();
+
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO RECEIPT_ITEM(RECEIPT_ID, ITEM_ID)" +
+                "VALUES (?,?)");
+
+        stmt.setLong(1, receiptId);
+        stmt.setLong(2, itemId);
+
+        stmt.executeUpdate();
+        closeConnection(connection);
+    }
+
+    private static Long fetchLastReceiptId() throws SQLException {
+        Long receiptId = 0L;
+
+        Connection connection = openConnection();
+
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT ID FROM RECEIPT ORDER BY ID DESC LIMIT 1");
+
+        while (rs.next()){
+            receiptId = rs.getLong("id");
+        }
+        closeConnection(connection);
+        return receiptId;
     }
 
     public static Boolean checkItemCode(String code) throws SQLException {

@@ -59,4 +59,16 @@ public class Receipt{
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+
+    public BigDecimal calculatePrice(){
+
+        BigDecimal price = BigDecimal.valueOf(0);
+
+        for (Item item: this.getItems()){
+            price = price.add(item.getPrice());
+        }
+
+        return price;
+    }
 }
