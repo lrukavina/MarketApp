@@ -42,8 +42,39 @@ INSERT INTO USER_ITEM(USER_ID, ITEM_ID) VALUES
 (1, 3);
 
 
+CREATE TABLE IF NOT EXISTS RECEIPT(
+id identity not null,
+user_id bigint not null,
+date_issued date not null,
+time_issued time not null,
+price number not null
+);
+
+INSERT INTO RECEIPT(USER_ID, DATE_ISSUED, TIME_ISSUED, PRICE) VALUES
+(1, '2021-06-30', '21:21:00', 22.5);
+
+
+CREATE TABLE IF NOT EXISTS RECEIPT_ITEM(
+receipt_id bigint not null,
+item_id bigint not null,
+constraint fk_receipt foreign key (receipt_id) references receipt(id),
+constraint fk_purchased_item foreign key (item_id) references item(id)
+);
+
+INSERT INTO RECEIPT_ITEM(RECEIPT_ID, ITEM_ID) VALUES
+(1, 1),
+(1, 2),
+(1, 3);
+
+
 ///QUERY TO FETCH SELECTED ITEM FOR USER ID
 SELECT ITEM.* FROM ITEM INNER JOIN
 USER_ITEM ON ITEM.ID = ITEM_ID INNER JOIN
 USER ON USER_ID = USER.ID
 WHERE USER.ID = ?
+
+///QUERY TO FETCH ALL ITEMS OF SPECIFIC RECEIPT 
+SELECT ITEM.* FROM ITEM INNER JOIN
+RECEIPT_ITEM ON ITEM.ID = ITEM_ID INNER JOIN
+RECEIPT ON RECEIPT_ID = RECEIPT.ID
+WHERE RECEIPT.ID = ?

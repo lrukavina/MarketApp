@@ -29,8 +29,7 @@ public class Test {
         System.out.println(item.getCode());
         System.out.println(user);
 
-        Receipt receipt = new Receipt(user, Database.fetchAllItems(), LocalDate.now(),
-                LocalTime.now(), BigDecimal.valueOf(25));
+        Receipt receipt = Database.fetchAllReceipts().get(0);
 
         LocalDate localDate = LocalDate.now();
         LocalTime localTime = LocalTime.now();

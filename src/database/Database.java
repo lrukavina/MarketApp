@@ -3,6 +3,7 @@ package database;
 import enumeration.ItemType;
 import enumeration.UserType;
 import model.Item;
+import model.Receipt;
 import model.User;
 import security.PasswordEncoder;
 
@@ -10,6 +11,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -159,6 +162,104 @@ public class Database {
         }
         closeConnection(connection);
         return items;
+    }
+
+    public static List<Receipt> fetchAllReceipts() throws SQLException {
+        List<Receipt> receipts = new ArrayList<>();
+        User user;
+        List<Item> items;
+
+        Connection connection = openConnection();
+
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM RECEIPT");
+
+        while (rs.next()){
+            long id = rs.getLong("id");
+            long userId = rs.getLong("user_id");
+            Date dateIssued = rs.getDate("date_issued");
+            Time timeIssued = rs.getTime("time_issued");
+            BigDecimal price = rs.getBigDecimal("price");
+
+            user = fetchReceiptUser(userId);
+            items = fetchReceiptItems(id);
+            LocalDate localDateIssued = dateIssued.toLocalDate();
+            LocalTime localTimeIssued = timeIssued.toLocalTime();
+
+            Receipt receipt = new Receipt(user, items, localDateIssued, localTimeIssued, price);
+            receipts.add(receipt);
+        }
+        closeConnection(connection);
+        return receipts;
+    }
+
+    public static List<Item> fetchReceiptItems(Long receiptId) throws SQLException {
+        List<Item> items = new ArrayList<>();
+
+        Connection connection = openConnection();
+
+        PreparedStatement stmt = connection.prepareStatement("SELECT ITEM.* FROM ITEM INNER JOIN\n" +
+                "RECEIPT_ITEM ON ITEM.ID = ITEM_ID INNER JOIN\n" +
+                "RECEIPT ON RECEIPT_ID = RECEIPT.ID\n" +
+                "WHERE RECEIPT.ID = ?");
+        stmt.setLong(1, receiptId);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()){
+            long id = rs.getLong("id");
+            String name = rs.getString("name");
+            String code = rs.getString("code");
+            String itemTypeString = rs.getString("type");
+
+            ItemType itemType = null;
+            switch (itemTypeString){
+                case "Food":
+                    itemType = ItemType.FOOD; break;
+                case "Electronics":
+                    itemType = ItemType.ELECTRONICS; break;
+            }
+
+            Integer quantity = rs.getInt("quantity");
+            BigDecimal price = rs.getBigDecimal("price");
+
+            Item item = new Item(id, name, code, itemType, quantity, price);
+            items.add(item);
+        }
+        closeConnection(connection);
+        return items;
+    }
+
+    public static User fetchReceiptUser(Long userId) throws SQLException {
+        User user = new User();
+
+        Connection connection = openConnection();
+
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM USER WHERE ID = ?");
+        stmt.setLong(1, userId);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()){
+            Long id = rs.getLong("id");
+            String name = rs.getString("name");
+            String surname = rs.getString("surname");
+            String userTypeString = rs.getString("type");
+
+            UserType userType = null;
+            switch (userTypeString){
+                case "Admin":
+                    userType = UserType.ADMIN; break;
+                case "User":
+                    userType = UserType.USER; break;
+            }
+
+            String username = rs.getString("username");
+            String password = rs.getString("password");
+
+            User fetchedUser = new User(id, name, surname, userType, username, password);
+            user = fetchedUser;
+        }
+        closeConnection(connection);
+        return user;
     }
 
     public static Boolean checkItemCode(String code) throws SQLException {
