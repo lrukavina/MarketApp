@@ -16,6 +16,7 @@ import model.User;
 import pdf.GeneratePdf;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.SQLException;
@@ -24,10 +25,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class CartController implements Initializable {
 
     private static ObservableList<Item> itemObservableList;
+    private static ObservableList<Item> allItemsObservableList;
     private static ObservableList<Item> selectedItemObservableList;
     private static User currentUser;
     private List<Item> items = new ArrayList<>();
@@ -66,11 +69,15 @@ public class CartController implements Initializable {
     @FXML
     private Label priceLabel;
 
+    @FXML
+    private TextField searchTextField;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         itemObservableList = FXCollections.observableArrayList();
+        allItemsObservableList = FXCollections.observableArrayList();
         priceLabel.setText("0 kn");
 
         try {
@@ -80,6 +87,7 @@ public class CartController implements Initializable {
         }
 
         itemObservableList.addAll(items);
+        allItemsObservableList.addAll(itemObservableList);
 
         itemTableView.setItems(itemObservableList);
 
@@ -157,7 +165,7 @@ public class CartController implements Initializable {
     }
 
     @FXML
-    public void finishPurchase() throws FileNotFoundException, DocumentException, SQLException {
+    public void finishPurchase() throws IOException, DocumentException, SQLException {
         GeneratePdf generatePdf = new GeneratePdf();
         Receipt receipt = new Receipt(currentUser, selectedItemObservableList,
                 LocalDate.now(), LocalTime.now(),
@@ -169,6 +177,29 @@ public class CartController implements Initializable {
         alert.setTitle("Receipt saved");
         alert.setHeaderText("Receipt saved");
         alert.showAndWait();
+
+        MainMenuController mainMenuController = new MainMenuController();
+        mainMenuController.showCart();
+    }
+
+    @FXML
+    public void searchItems(){
+        String searchText = searchTextField.getText();
+
+        if(searchText.isEmpty()){
+            itemObservableList.clear();
+            itemObservableList.addAll(allItemsObservableList);
+            itemTableView.setItems(itemObservableList);
+        }
+        else{
+            List<Item> filteredItemList = itemObservableList.stream()
+                                          .filter(item -> item.getName().toLowerCase().contains(searchText))
+                                          .collect(Collectors.toList());
+
+            itemObservableList.clear();
+            itemObservableList.addAll(FXCollections.observableArrayList(filteredItemList));
+            itemTableView.setItems(itemObservableList);
+        }
     }
 
 }

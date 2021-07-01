@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.User;
@@ -31,11 +32,18 @@ public class MainMenuController implements Initializable {
     @FXML
     private MenuBar menuBar;
 
+    @FXML
+    private MenuItem logoutMenuItem = new MenuItem();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(currentUser != null){
             welcomeText.setText(currentUser.getUsername().toUpperCase()+", welcome to MarketApp");
+
+            if(currentUser.getUserType().equals(UserType.USER)){
+               //to do code
+            }
         }
     }
 
