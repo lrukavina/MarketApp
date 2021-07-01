@@ -20,9 +20,10 @@ public class GeneratePdf {
 
     public GeneratePdf(){}
 
-    public void GenerateReceipt(Receipt receipt) throws FileNotFoundException, DocumentException {
+    public void generateReceipt(Receipt receipt) throws FileNotFoundException, DocumentException {
         LocalDate localDate = LocalDate.now();
         LocalTime localTime = LocalTime.now();
+
         String receiptName = localDate.toString() + "-" + localTime.getHour() + "-"
                 + localTime.getMinute() + "-" + localTime.getSecond();
 
@@ -50,11 +51,14 @@ public class GeneratePdf {
         paragraph.add(" ");
         document.add(paragraph);
 
-        PdfPTable table = new PdfPTable(3);
+        PdfPTable table = new PdfPTable(4);
         PdfPCell cell = new PdfPCell(new Phrase("Item name"));
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase("Item code"));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("Quantity"));
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase("Price"));
@@ -64,14 +68,19 @@ public class GeneratePdf {
         for(Item receiptItem: receipt.getItems()){
             table.addCell(receiptItem.getName());
             table.addCell(receiptItem.getCode());
+            table.addCell(receiptItem.getQuantity().toString());
             table.addCell(receiptItem.getPrice().toString());
         }
+
         table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");
+        table.addCell(" ");
+
         table.addCell("TOTAL: ");
         table.addCell(" ");
-        table.addCell(receipt.getPrice().toString());
+        table.addCell(" ");
+        table.addCell(receipt.calculatePrice().toString());
 
         document.add(table);
 

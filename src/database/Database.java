@@ -71,10 +71,9 @@ public class Database {
                     itemType = ItemType.ELECTRONICS; break;
             }
 
-            Integer quantity = rs.getInt("quantity");
             BigDecimal price = rs.getBigDecimal("price");
 
-            Item item = new Item(id, name, code, itemType, quantity, price);
+            Item item = new Item(id, name, code, itemType, price);
             items.add(item);
         }
         closeConnection(connection);
@@ -155,10 +154,9 @@ public class Database {
                     itemType = ItemType.ELECTRONICS; break;
             }
 
-            Integer quantity = rs.getInt("quantity");
             BigDecimal price = rs.getBigDecimal("price");
 
-            Item item = new Item(id, name, code, itemType, quantity, price);
+            Item item = new Item(id, name, code, itemType, price);
             items.add(item);
         }
         closeConnection(connection);
@@ -220,10 +218,9 @@ public class Database {
                     itemType = ItemType.ELECTRONICS; break;
             }
 
-            Integer quantity = rs.getInt("quantity");
             BigDecimal price = rs.getBigDecimal("price");
 
-            Item item = new Item(id, name, code, itemType, quantity, price);
+            Item item = new Item(id, name, code, itemType, price);
             items.add(item);
         }
         closeConnection(connection);

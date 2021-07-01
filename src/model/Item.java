@@ -16,23 +16,26 @@ public class Item {
     private String code;
     private ItemType itemType;
     private Integer quantity;
+    private BigDecimal basicPrice;
     private BigDecimal price;
 
-    public Item(Long id, String name, String code, ItemType itemType, Integer quantity, BigDecimal price) {
+    public Item(Long id, String name, String code, ItemType itemType, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.itemType = itemType;
-        this.quantity = quantity;
+        this.quantity = 1;
+        this.basicPrice = price;
         this.price = price;
     }
 
-    public Item(Long id, String name, ItemType itemType, Integer quantity, BigDecimal price) throws SQLException {
+    public Item(Long id, String name, ItemType itemType, BigDecimal price) throws SQLException {
         this.id = id;
         this.name = name;
         this.itemType = itemType;
         this.code = generateCode(itemType);
-        this.quantity = quantity;
+        this.quantity = 1;
+        this.basicPrice = price;
         this.price = price;
     }
 
@@ -76,6 +79,14 @@ public class Item {
         this.quantity = quantity;
     }
 
+    public BigDecimal getBasicPrice() {
+        return basicPrice;
+    }
+
+    public void setBasicPrice(BigDecimal basicPrice) {
+        this.basicPrice = basicPrice;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -92,8 +103,13 @@ public class Item {
                 ", code='" + code + '\'' +
                 ", itemType=" + itemType +
                 ", quantity=" + quantity +
+                ", basicPrice=" + basicPrice +
                 ", price=" + price +
                 '}';
+    }
+
+    public void calculatePrice(){
+        this.price = this.basicPrice.multiply(BigDecimal.valueOf(quantity));
     }
 
     private String generateCode(ItemType itemType) throws SQLException {

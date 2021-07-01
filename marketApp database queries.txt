@@ -14,7 +14,7 @@ price number
 );
 
 INSERT INTO ITEM(NAME, CODE, TYPE, QUANTITY, PRICE)VALUES
-('Apple', 'FD4689', 'Food', 2, 22.5),
+('Apple', 'FD4689', 'Food', 1, 22.5),
 ('Banana', 'FD7515', 'Food', 1 , 10),
 ('Pear', 'FD9124', 'Food', 1, 5),
 ('IphoneX', 'ES1712', 'Electronics', 1, 500);

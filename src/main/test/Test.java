@@ -27,7 +27,7 @@ public class Test {
 
     public static void main(String[] args) throws SQLException, FileNotFoundException, DocumentException {
 
-        Item item = new Item(4L, "test", ItemType.ELECTRONICS, 1, BigDecimal.valueOf(1));
+        Item item = new Item(4L, "test", ItemType.ELECTRONICS, BigDecimal.valueOf(1));
         User user = new User(1L, "Luka", "Rukavina", UserType.ADMIN, "admin","123" );
         System.out.println(item.getCode());
         System.out.println(user);
@@ -69,11 +69,14 @@ public class Test {
         paragraph.add(" ");
         document.add(paragraph);
 
-        PdfPTable table = new PdfPTable(3);
+        PdfPTable table = new PdfPTable(4);
         PdfPCell cell = new PdfPCell(new Phrase("Item name"));
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase("Item code"));
+        table.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("Quantity"));
         table.addCell(cell);
 
         cell = new PdfPCell(new Phrase("Price"));
@@ -83,14 +86,19 @@ public class Test {
         for(Item receiptItem: receipt.getItems()){
             table.addCell(receiptItem.getName());
             table.addCell(receiptItem.getCode());
+            table.addCell(receiptItem.getQuantity().toString());
             table.addCell(receiptItem.getPrice().toString());
         }
+
         table.addCell(" ");
         table.addCell(" ");
         table.addCell(" ");
+        table.addCell(" ");
+
         table.addCell("TOTAL: ");
         table.addCell(" ");
-        table.addCell(receipt.getPrice().toString());
+        table.addCell(" ");
+        table.addCell(receipt.calculatePrice().toString());
 
         document.add(table);
 
