@@ -33,7 +33,10 @@ public class MainMenuController implements Initializable {
     private MenuBar menuBar;
 
     @FXML
-    private MenuItem logoutMenuItem = new MenuItem();
+    private MenuItem registerUserMenuItem = new MenuItem();
+
+    @FXML
+    private MenuItem addItemMenuItem = new MenuItem();
 
 
     @Override
@@ -42,7 +45,9 @@ public class MainMenuController implements Initializable {
             welcomeText.setText(currentUser.getUsername().toUpperCase()+", welcome to MarketApp");
 
             if(currentUser.getUserType().equals(UserType.USER)){
-               //to do code
+               registerUserMenuItem.setDisable(true);
+               addItemMenuItem.setDisable(true);
+
             }
         }
     }
@@ -91,5 +96,29 @@ public class MainMenuController implements Initializable {
         Scene loginScene = new Scene(loginFrame, 650, 400);
         Main.getMainStage().setTitle("MarketApp | Login");
         Main.getMainStage().setScene(loginScene);
+    }
+
+    @FXML
+    public void showRegisterUser() throws IOException{
+        Parent registerFrame =
+                FXMLLoader.load(getClass().getClassLoader().getResource("registration.fxml"));
+        Scene registerScene = new Scene(registerFrame, 650, 400);
+        Main.getMainStage().setScene(registerScene);
+    }
+
+    @FXML
+    public void showManageUsers() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("manageUsers.fxml"));
+        loader.load();
+
+        manageUsersController manageUsersController = loader.getController();
+        manageUsersController.initUser(currentUser);
+
+        Parent manageUsersFrame =
+                FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                        "manageUsers.fxml")));
+        Scene manageUsersScene = new Scene(manageUsersFrame, 800, 600);
+        Main.getMainStage().setTitle("MarketApp | Manage users");
+        Main.getMainStage().setScene(manageUsersScene);
     }
 }

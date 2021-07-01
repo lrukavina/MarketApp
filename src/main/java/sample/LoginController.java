@@ -51,14 +51,6 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void registerAccount() throws IOException{
-        Parent registerFrame =
-                FXMLLoader.load(getClass().getClassLoader().getResource("registration.fxml"));
-        Scene registerScene = new Scene(registerFrame, 650, 400);
-        Main.getMainStage().setScene(registerScene);
-    }
-
-    @FXML
     public void login(ActionEvent event) throws IOException, SQLException {
         String usernameText = usernameTextField.getText();
         String passwordText = passwordTextField.getText();
