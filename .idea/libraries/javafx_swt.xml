@@ -19,6 +19,7 @@
       <root url="jar://$PROJECT_DIR$/../../javafx-sdk-11.0.2/lib/javafx.web.jar!/" />
       <root url="file://$PROJECT_DIR$" />
       <root url="jar://$PROJECT_DIR$/../pdf library/itextpdf-5.5.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../javafx-sdk-11.0.2/lib/itextpdf-5.5.9.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

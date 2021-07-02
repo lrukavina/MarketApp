@@ -3,9 +3,9 @@ package main.java.sample;
 import com.itextpdf.text.DocumentException;
 import database.Database;
 import enumeration.ItemType;
-import enumeration.UserType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -15,7 +15,6 @@ import model.Receipt;
 import model.User;
 import pdf.GeneratePdf;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -86,11 +85,6 @@ public class CartController implements Initializable {
             throwables.printStackTrace();
         }
 
-        itemObservableList.addAll(items);
-        allItemsObservableList.addAll(itemObservableList);
-
-        itemTableView.setItems(itemObservableList);
-
         itemNameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         itemCodeColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("code"));
         itemTypeColumn.setCellValueFactory(new PropertyValueFactory<Item, ItemType>("itemType"));
@@ -105,6 +99,12 @@ public class CartController implements Initializable {
         selectedItemQuantityColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
         selectedItemPriceColumn.setCellValueFactory(new PropertyValueFactory<Item, BigDecimal>("price"));
 
+        FilteredList<Item> filteredData = new FilteredList<>(FXCollections.observableList(items));
+        itemTableView.setItems(filteredData);
+
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) ->
+                itemTableView.setItems(filterList(filteredData, newValue))
+        );
 
         itemTableView.setRowFactory(itemTableView -> {
             TableRow<Item> row = new TableRow<>();
@@ -116,6 +116,15 @@ public class CartController implements Initializable {
             });
             return row;
         });
+    }
+
+    private ObservableList<Item> filterList(List<Item> list, String searchText){
+        List<Item> filteredList = list.stream()
+                                    .filter(item -> item.getName().toLowerCase().contains(searchText.toLowerCase())
+                                                    || item.getCode().toUpperCase().contains(searchText.toUpperCase()))
+                                    .collect(Collectors.toList());
+
+        return FXCollections.observableList(filteredList);
     }
 
     public void initUser(User user){
@@ -180,26 +189,6 @@ public class CartController implements Initializable {
 
         MainMenuController mainMenuController = new MainMenuController();
         mainMenuController.showCart();
-    }
-
-    @FXML
-    public void searchItems(){
-        String searchText = searchTextField.getText();
-
-        if(searchText.isEmpty()){
-            itemObservableList.clear();
-            itemObservableList.addAll(allItemsObservableList);
-            itemTableView.setItems(itemObservableList);
-        }
-        else{
-            List<Item> filteredItemList = itemObservableList.stream()
-                                          .filter(item -> item.getName().toLowerCase().contains(searchText))
-                                          .collect(Collectors.toList());
-
-            itemObservableList.clear();
-            itemObservableList.addAll(FXCollections.observableArrayList(filteredItemList));
-            itemTableView.setItems(itemObservableList);
-        }
     }
 
 }
