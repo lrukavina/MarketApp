@@ -9,14 +9,31 @@
       <Menu mnemonicParsing="false" text="Home">
          <items>
             <MenuItem mnemonicParsing="false" onAction="#showMain" text="Main Menu" />
-            <MenuItem fx:id="logoutMenuItem" mnemonicParsing="false" onAction="#logOut" text="Logout" />
+            <MenuItem mnemonicParsing="false" onAction="#logOut" text="Logout" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="Cart">
          <items>
             <MenuItem mnemonicParsing="true" onAction="#showCart" text="Show Cart" />
-            <MenuItem mnemonicParsing="false" text="Placeholder" />
          </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="User">
+        <items>
+          <MenuItem fx:id="registerUserMenuItem" mnemonicParsing="false" onAction="#showRegisterUser" text="Register user" />
+            <MenuItem mnemonicParsing="false" onAction="#showManageUsers" text="Manage users" />
+        </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Item">
+        <items>
+          <MenuItem fx:id="addItemMenuItem" mnemonicParsing="false" text="Add Item" />
+            <MenuItem mnemonicParsing="false" text="Manage Items" />
+        </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Help">
+        <items>
+          <MenuItem mnemonicParsing="false" text="MarketApp help" />
+            <MenuItem mnemonicParsing="false" text="About MarketApp" />
+        </items>
       </Menu>
    </menus>
 </MenuBar>

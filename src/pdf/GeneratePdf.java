@@ -93,7 +93,7 @@ public class GeneratePdf {
         paragraph.add("Date: " + receipt.getDateIssued().format(dateFormatter));
         document.add(paragraph);
         paragraph.clear();
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss " + "h");
         paragraph.add("Time: "+ receipt.getTimeIssued().format(timeFormatter));
         document.add(paragraph);
         document.close();

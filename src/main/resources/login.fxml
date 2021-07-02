@@ -14,7 +14,6 @@
       <Button layoutX="278.0" layoutY="278.0" mnemonicParsing="false" onAction="#login" text="Login" />
       <PasswordField fx:id="passwordTextField" layoutX="300.0" layoutY="188.0" />
       <TextField fx:id="usernameTextField" layoutX="301.0" layoutY="126.0" />
-      <Button layoutX="249.0" layoutY="312.0" mnemonicParsing="false" onAction="#registerAccount" text="Register account" />
       <Text layoutX="256.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login to account" />
    </children>
 </AnchorPane>

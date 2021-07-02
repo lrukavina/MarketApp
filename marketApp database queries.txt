@@ -29,7 +29,8 @@ password varchar(255) not null
 );
 
 INSERT INTO USER (NAME, SURNAME, TYPE, USERNAME, PASSWORD)VALUES
-('admin name', 'admin surname', 'Admin' ,'admin', 'MTIz');
+('adminName', 'adminSurname', 'Admin' ,'admin', 'MTIz'),
+('John', 'Doe', 'User', 'johndoe', 'MTIz');
 
 CREATE TABLE IF NOT EXISTS USER_ITEM(
 user_id bigint not null,

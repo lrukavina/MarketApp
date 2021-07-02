@@ -112,7 +112,7 @@ public class Test {
         document.add(paragraph);
         paragraph.clear();
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        paragraph.add("Time: "+ receipt.getTimeIssued().format(timeFormatter));
+        paragraph.add("Time: "+ receipt.getTimeIssued().format(timeFormatter) + " h");
         document.add(paragraph);
         document.close();
 
