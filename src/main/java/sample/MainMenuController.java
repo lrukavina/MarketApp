@@ -1,6 +1,7 @@
 package main.java.sample;
 
 import enumeration.UserType;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -89,13 +90,18 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    public void logOut() throws IOException {
+    public void changeUser() throws IOException {
         Parent loginFrame =
                 FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
                         "login.fxml")));
         Scene loginScene = new Scene(loginFrame, 650, 400);
         Main.getMainStage().setTitle("MarketApp | Login");
         Main.getMainStage().setScene(loginScene);
+    }
+
+    @FXML
+    public void exitApplication(){
+        Platform.exit();
     }
 
     @FXML

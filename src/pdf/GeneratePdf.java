@@ -27,7 +27,7 @@ public class GeneratePdf {
         String receiptName = localDate.toString() + "-" + localTime.getHour() + "-"
                 + localTime.getMinute() + "-" + localTime.getSecond();
 
-        String fileName ="C:\\pdf\\" + "RT-" + receiptName +".pdf";
+        String fileName ="receipts\\" + "RT-" + receiptName +".pdf";
 
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(fileName));
@@ -93,8 +93,8 @@ public class GeneratePdf {
         paragraph.add("Date: " + receipt.getDateIssued().format(dateFormatter));
         document.add(paragraph);
         paragraph.clear();
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss " + "h");
-        paragraph.add("Time: "+ receipt.getTimeIssued().format(timeFormatter));
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        paragraph.add("Time: "+ receipt.getTimeIssued().format(timeFormatter) + " h");
         document.add(paragraph);
         document.close();
     }

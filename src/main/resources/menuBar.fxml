@@ -9,7 +9,8 @@
       <Menu mnemonicParsing="false" text="Home">
          <items>
             <MenuItem mnemonicParsing="false" onAction="#showMain" text="Main Menu" />
-            <MenuItem mnemonicParsing="false" onAction="#logOut" text="Logout" />
+            <MenuItem mnemonicParsing="false" onAction="#changeUser" text="Change user" />
+            <MenuItem mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
          </items>
       </Menu>
       <Menu mnemonicParsing="false" text="Cart">

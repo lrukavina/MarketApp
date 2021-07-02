@@ -31,6 +31,7 @@ public class CartController implements Initializable {
     private static ObservableList<Item> itemObservableList;
     private static ObservableList<Item> allItemsObservableList;
     private static ObservableList<Item> selectedItemObservableList;
+    private static ObservableList<String> searchByObservableList;
     private static User currentUser;
     private List<Item> items = new ArrayList<>();
     private List<Item> selectedItems = new ArrayList<>();
@@ -71,13 +72,23 @@ public class CartController implements Initializable {
     @FXML
     private TextField searchTextField;
 
+    @FXML
+    private ChoiceBox<String> searchByChoiceBox = new ChoiceBox<>();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         itemObservableList = FXCollections.observableArrayList();
         allItemsObservableList = FXCollections.observableArrayList();
+        searchByObservableList = FXCollections.observableArrayList();
         priceLabel.setText("0 kn");
+
+        searchByObservableList.add("By name");
+        searchByObservableList.add("By code");
+        searchByObservableList.add("By price");
+        searchByChoiceBox.setItems(searchByObservableList);
+        searchByChoiceBox.setValue("By name");
 
         try {
             items = Database.fetchAllItems();
@@ -94,6 +105,7 @@ public class CartController implements Initializable {
         selectedItemObservableList = FXCollections.observableArrayList();
         selectedItemObservableList.addAll(selectedItems);
         selectedItemTableView.setItems(selectedItemObservableList);
+        selectedItemTableView.setPlaceholder(new Label("Selected items"));
 
         selectedItemNameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         selectedItemQuantityColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
@@ -101,9 +113,10 @@ public class CartController implements Initializable {
 
         FilteredList<Item> filteredData = new FilteredList<>(FXCollections.observableList(items));
         itemTableView.setItems(filteredData);
+        itemTableView.setPlaceholder(new Label("No items found"));
 
         searchTextField.textProperty().addListener((observable, oldValue, newValue) ->
-                itemTableView.setItems(filterList(filteredData, newValue))
+                itemTableView.setItems(filterList(filteredData, newValue, searchByChoiceBox.getValue()))
         );
 
         itemTableView.setRowFactory(itemTableView -> {
@@ -118,14 +131,15 @@ public class CartController implements Initializable {
         });
     }
 
-    private ObservableList<Item> filterList(List<Item> list, String searchText){
+    private ObservableList<Item> filterList(List<Item> list, String searchText, String searchBy){
         List<Item> filteredList = list.stream()
                                     .filter(item -> item.getName().toLowerCase().contains(searchText.toLowerCase())
-                                                    || item.getCode().toUpperCase().contains(searchText.toUpperCase()))
+                                    || item.getCode().toUpperCase().contains(searchText.toUpperCase()))
                                     .collect(Collectors.toList());
 
         return FXCollections.observableList(filteredList);
     }
+
 
     public void initUser(User user){
         currentUser = user;
