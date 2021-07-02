@@ -127,4 +127,15 @@ public class MainMenuController implements Initializable {
         Main.getMainStage().setTitle("MarketApp | Manage users");
         Main.getMainStage().setScene(manageUsersScene);
     }
+
+    @FXML
+    public void showAbout() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("about.fxml"));
+
+        Scene scene = new Scene(loader.load(), 400, 500);
+        Stage stage = new Stage();
+        stage.setTitle("MarketApp | About");
+        stage.setScene(scene);
+        stage.show();
+    }
 }

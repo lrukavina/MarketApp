@@ -10,6 +10,7 @@
          <items>
             <MenuItem mnemonicParsing="false" onAction="#showMain" text="Main Menu" />
             <MenuItem mnemonicParsing="false" onAction="#changeUser" text="Change user" />
+            <MenuItem mnemonicParsing="false" text="Settings " />
             <MenuItem mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
          </items>
       </Menu>
@@ -30,10 +31,15 @@
             <MenuItem mnemonicParsing="false" text="Manage Items" />
         </items>
       </Menu>
+      <Menu mnemonicParsing="false" text="Reciept">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Manage reciepts " />
+        </items>
+      </Menu>
       <Menu mnemonicParsing="false" text="Help">
         <items>
           <MenuItem mnemonicParsing="false" text="MarketApp help" />
-            <MenuItem mnemonicParsing="false" text="About MarketApp" />
+            <MenuItem mnemonicParsing="false" onAction="#showAbout" text="About MarketApp" />
         </items>
       </Menu>
    </menus>

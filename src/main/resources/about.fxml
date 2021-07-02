@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.aboutController">
+   <children>
+      <TextArea fx:id="aboutTextArea" layoutX="24.0" layoutY="82.0" prefHeight="336.0" prefWidth="352.0" text="Product version:&#10;Development version 1.0&#10;02-07-2021&#10;&#10;This product is not for sale." />
+      <Label layoutX="24.0" layoutY="42.0" text="MarketApp" textFill="#140954">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
