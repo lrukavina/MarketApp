@@ -14,6 +14,7 @@ import model.Item;
 import model.Receipt;
 import model.User;
 import pdf.GeneratePdf;
+import settings.SettingsLoader;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -35,6 +37,8 @@ public class CartController implements Initializable {
     private static User currentUser;
     private List<Item> items = new ArrayList<>();
     private List<Item> selectedItems = new ArrayList<>();
+    private SettingsLoader settingsLoader = new SettingsLoader();
+    private Properties settings = new Properties();
 
     @FXML
     private TableView<Item> itemTableView;
@@ -79,10 +83,20 @@ public class CartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        try {
+            settings = settingsLoader.loadSettings();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Settings error");
+            alert.setHeaderText("Error loading settings");
+            alert.setContentText("Settings could not be loaded. Please check does the file exist.");
+            alert.showAndWait();
+        }
+
         itemObservableList = FXCollections.observableArrayList();
         allItemsObservableList = FXCollections.observableArrayList();
         searchByObservableList = FXCollections.observableArrayList();
-        priceLabel.setText("0 kn");
+        priceLabel.setText("0 "+settings.getProperty("currency"));
 
         searchByObservableList.add("By name");
         searchByObservableList.add("By code");
@@ -172,7 +186,7 @@ public class CartController implements Initializable {
             selectedItemObservableList.add(item);
         }
         
-        priceLabel.setText(calculateTotalPrice(selectedItemObservableList)+" kn");
+        priceLabel.setText(calculateTotalPrice(selectedItemObservableList)+" "+settings.getProperty("currency"));
     }
 
     private String calculateTotalPrice(List<Item> items){
@@ -202,8 +216,10 @@ public class CartController implements Initializable {
         Database.saveReceipt(receipt);
         generatePdf.generateReceipt(receipt);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Receipt saved");
-        alert.setHeaderText("Receipt saved");
+        alert.setTitle("Finished purchase");
+        alert.setHeaderText("Finished purchase and saved receipt");
+        alert.setContentText("Purchase has been finished on "+ LocalDate.now()+" "+LocalTime.now()+"and the receipt " +
+                "has been saved");
         alert.showAndWait();
 
         MainMenuController mainMenuController = new MainMenuController();

@@ -37,6 +37,9 @@ public class MainMenuController implements Initializable {
     @FXML
     private MenuItem addItemMenuItem = new MenuItem();
 
+    @FXML
+    private MenuItem settingsMenuItem = new MenuItem();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -46,7 +49,7 @@ public class MainMenuController implements Initializable {
             if(currentUser.getUserType().equals(UserType.USER)){
                registerUserMenuItem.setDisable(true);
                addItemMenuItem.setDisable(true);
-
+               settingsMenuItem.setDisable(true);
             }
         }
     }
@@ -151,5 +154,21 @@ public class MainMenuController implements Initializable {
         stage.setTitle("MarketApp | About");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    public void showSettings() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("settings.fxml"));
+        loader.load();
+
+        SettingsController settingsController = loader.getController();
+        settingsController.initUser(currentUser);
+
+        Parent settingsFrame =
+                FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                        "settings.fxml")));
+        Scene settingsScene = new Scene(settingsFrame, 800, 600);
+        Main.getMainStage().setTitle("MarketApp | Settings");
+        Main.getMainStage().setScene(settingsScene);
     }
 }

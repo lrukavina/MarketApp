@@ -10,7 +10,7 @@
          <items>
             <MenuItem mnemonicParsing="false" onAction="#showMain" text="Main Menu" />
             <MenuItem mnemonicParsing="false" onAction="#changeUser" text="Change user" />
-            <MenuItem mnemonicParsing="false" text="Settings " />
+            <MenuItem fx:id="settingsMenuItem" mnemonicParsing="false" onAction="#showSettings" text="Settings " />
             <MenuItem mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
          </items>
       </Menu>

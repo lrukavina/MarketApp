@@ -1,31 +1,38 @@
 package pdf;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import model.Item;
 import model.Receipt;
+import settings.SettingsLoader;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 public class GeneratePdf {
 
+    private SettingsLoader settingsLoader = new SettingsLoader();
+    private Properties settings = new Properties();
+
     public GeneratePdf(){}
 
-    public void generateReceipt(Receipt receipt) throws FileNotFoundException, DocumentException {
+    public void generateReceipt(Receipt receipt) throws IOException, DocumentException {
         LocalDate localDate = LocalDate.now();
         LocalTime localTime = LocalTime.now();
 
         /*String receiptName = localDate.toString() + "-" + localTime.getHour() + "-"
                 + localTime.getMinute() + "-" + localTime.getSecond();*/
+
+        settings = settingsLoader.loadSettings();
 
         String fileName ="receipts\\" + receipt.getName() +".pdf";
 
@@ -34,11 +41,15 @@ public class GeneratePdf {
 
         document.open();
 
-        Paragraph paragraph = new Paragraph("MarketApp");
+        Paragraph paragraph = new Paragraph(settings.getProperty("marketName"));
 
         document.add(paragraph);
         paragraph.clear();
-        paragraph.add("Market for all");
+        File fontFile = new File("font/arial.ttf");
+        BaseFont baseFont = BaseFont.createFont(fontFile.getAbsolutePath(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        Font font = new Font(baseFont, 12, Font.NORMAL);
+        paragraph.setFont(font);
+        paragraph.add(settings.getProperty("marketAddress"));
         document.add(paragraph);
         paragraph.clear();
         paragraph.add(" ");
@@ -69,7 +80,7 @@ public class GeneratePdf {
             table.addCell(receiptItem.getName());
             table.addCell(receiptItem.getCode());
             table.addCell(receiptItem.getQuantity().toString());
-            table.addCell(receiptItem.getPrice().toString());
+            table.addCell(receiptItem.getPrice().toString() + settings.getProperty("currency"));
         }
 
         table.addCell(" ");
@@ -80,7 +91,7 @@ public class GeneratePdf {
         table.addCell("TOTAL: ");
         table.addCell(" ");
         table.addCell(" ");
-        table.addCell(receipt.calculatePrice().toString());
+        table.addCell(receipt.calculatePrice().toString() + settings.getProperty("currency"));
 
         document.add(table);
 

@@ -34,6 +34,11 @@
             <artifactId>h2</artifactId>
             <version>1.4.199</version>
         </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.9</version>
+        </dependency>
 
     </dependencies>
 

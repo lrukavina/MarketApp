@@ -13,6 +13,8 @@ import model.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -20,12 +22,13 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Test {
 
     static List<Item> items = new ArrayList<>();
 
-    public static void main(String[] args) throws SQLException, FileNotFoundException, DocumentException {
+    public static void main(String[] args) throws SQLException, IOException, DocumentException {
 
         Item item = new Item(4L, "test", ItemType.ELECTRONICS, BigDecimal.valueOf(1));
         User user = new User(1L, "Luka", "Rukavina", UserType.ADMIN, "admin","123" );
@@ -115,6 +118,19 @@ public class Test {
         paragraph.add("Time: "+ receipt.getTimeIssued().format(timeFormatter) + " h");
         document.add(paragraph);
         document.close();
+
+        /*
+        String SETTINGS_FILE = "data/settings.properties";
+        Properties properties = new Properties();
+        properties.load(new FileReader(SETTINGS_FILE));
+        String currency = properties.getProperty("currency");
+        System.out.println(currency);
+
+        FileOutputStream out = new FileOutputStream("data/settings.properties");
+        properties.setProperty("currency", "hrk");
+        properties.store(out, null);
+        currency = properties.getProperty("currency");
+        System.out.println(currency);*/
 
     }
 }
