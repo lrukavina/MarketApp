@@ -2,11 +2,9 @@ package main.java.sample;
 
 import enumeration.UserType;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
@@ -117,7 +115,7 @@ public class MainMenuController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("manageUsers.fxml"));
         loader.load();
 
-        manageUsersController manageUsersController = loader.getController();
+        ManageUsersController manageUsersController = loader.getController();
         manageUsersController.initUser(currentUser);
 
         Parent manageUsersFrame =
@@ -126,6 +124,22 @@ public class MainMenuController implements Initializable {
         Scene manageUsersScene = new Scene(manageUsersFrame, 800, 600);
         Main.getMainStage().setTitle("MarketApp | Manage users");
         Main.getMainStage().setScene(manageUsersScene);
+    }
+
+    @FXML
+    public void showManageReceipts() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("manageReceipts.fxml"));
+        loader.load();
+
+        ManageReceiptsController manageReceiptsController = loader.getController();
+        manageReceiptsController.initUser(currentUser);
+
+        Parent manageReceiptsFrame =
+                FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(
+                        "manageReceipts.fxml")));
+        Scene manageReceiptsScene = new Scene(manageReceiptsFrame, 800, 600);
+        Main.getMainStage().setTitle("MarketApp | Manage receipts");
+        Main.getMainStage().setScene(manageReceiptsScene);
     }
 
     @FXML

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class manageUsersController implements Initializable {
+public class ManageUsersController implements Initializable {
 
     private static User currentUser = new User();
     private static ObservableList<User> usersObservableList;

@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class Receipt{
+    private String name;
     private User user;
     private List<Item> items;
     private LocalDate dateIssued;
@@ -18,6 +19,23 @@ public class Receipt{
         this.dateIssued = dateIssued;
         this.timeIssued = timeIssued;
         this.price = price;
+    }
+
+    public Receipt(String name, User user, List<Item> items, LocalDate dateIssued, LocalTime timeIssued, BigDecimal price) {
+        this.name = name;
+        this.user = user;
+        this.items = items;
+        this.dateIssued = dateIssued;
+        this.timeIssued = timeIssued;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public User getUser() {

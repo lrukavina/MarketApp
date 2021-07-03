@@ -78,13 +78,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", userType=" + userType +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return this.getName() + " " + this.getSurname();
     }
 }

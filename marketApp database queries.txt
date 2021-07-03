@@ -47,14 +47,12 @@ INSERT INTO USER_ITEM(USER_ID, ITEM_ID) VALUES
 
 CREATE TABLE IF NOT EXISTS RECEIPT(
 id identity not null,
+name varchar(50) not null,
 user_id bigint not null,
 date_issued date not null,
 time_issued time not null,
 price number not null
 );
-
-INSERT INTO RECEIPT(USER_ID, DATE_ISSUED, TIME_ISSUED, PRICE) VALUES
-(1, '2021-06-30', '21:21:00', 22.5);
 
 
 CREATE TABLE IF NOT EXISTS RECEIPT_ITEM(
@@ -63,11 +61,6 @@ item_id bigint not null,
 constraint fk_receipt foreign key (receipt_id) references receipt(id),
 constraint fk_purchased_item foreign key (item_id) references item(id)
 );
-
-INSERT INTO RECEIPT_ITEM(RECEIPT_ID, ITEM_ID) VALUES
-(1, 1),
-(1, 2),
-(1, 3);
 
 
 ///QUERY TO FETCH SELECTED ITEM FOR USER ID

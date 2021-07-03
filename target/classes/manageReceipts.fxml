@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.ManageReceiptsController">
+   <children>
+      <BorderPane prefHeight="600.0" prefWidth="800.0">
+          <top>
+              <fx:include fx:id="menuBar" source="menuBar.fxml" />
+          </top>
+         <bottom>
+            <TableView fx:id="receiptTableView" prefHeight="180.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="receiptNameColumn" prefWidth="228.0" text="Name:" />
+                  <TableColumn fx:id="receiptUserColumn" prefWidth="179.0" text="Issued by:" />
+                <TableColumn fx:id="receiptDateColumn" prefWidth="119.0" text="Date issued:" />
+                  <TableColumn fx:id="receiptTimeColumn" prefWidth="146.0" text="Time issued:" />
+                  <TableColumn fx:id="receiptPriceColumn" prefWidth="127.0" text="Price:" />
+              </columns>
+            </TableView>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -175,6 +175,7 @@ public class Database {
 
         while (rs.next()){
             long id = rs.getLong("id");
+            String name = rs.getString("name");
             long userId = rs.getLong("user_id");
             Date dateIssued = rs.getDate("date_issued");
             Time timeIssued = rs.getTime("time_issued");
@@ -185,7 +186,7 @@ public class Database {
             LocalDate localDateIssued = dateIssued.toLocalDate();
             LocalTime localTimeIssued = timeIssued.toLocalTime();
 
-            Receipt receipt = new Receipt(user, items, localDateIssued, localTimeIssued, price);
+            Receipt receipt = new Receipt(name, user, items, localDateIssued, localTimeIssued, price);
             receipts.add(receipt);
         }
         closeConnection(connection);
@@ -263,13 +264,14 @@ public class Database {
     public static void saveReceipt(Receipt receipt) throws SQLException {
         Connection connection = openConnection();
 
-        PreparedStatement stmt = connection.prepareStatement("INSERT INTO RECEIPT(USER_ID, DATE_ISSUED, TIME_ISSUED, PRICE)" +
-                "VALUES (?,?,?,?)");
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO RECEIPT(NAME, USER_ID, DATE_ISSUED, TIME_ISSUED, PRICE)" +
+                "VALUES (?,?,?,?,?)");
 
-        stmt.setLong(1, receipt.getUser().getId());
-        stmt.setDate(2, Date.valueOf(receipt.getDateIssued()));
-        stmt.setTime(3, Time.valueOf(receipt.getTimeIssued()));
-        stmt.setBigDecimal(4, receipt.calculatePrice());
+        stmt.setString(1, receipt.getName());
+        stmt.setLong(2, receipt.getUser().getId());
+        stmt.setDate(3, Date.valueOf(receipt.getDateIssued()));
+        stmt.setTime(4, Time.valueOf(receipt.getTimeIssued()));
+        stmt.setBigDecimal(5, receipt.calculatePrice());
 
         stmt.executeUpdate();
         Long receiptId = fetchLastReceiptId();

@@ -190,9 +190,14 @@ public class CartController implements Initializable {
     @FXML
     public void finishPurchase() throws IOException, DocumentException, SQLException {
         GeneratePdf generatePdf = new GeneratePdf();
+        LocalDate dateIssued = LocalDate.now();
+        LocalTime timeIssued = LocalTime.now();
+        String receiptName = "RT-"+dateIssued+timeIssued.getHour()+timeIssued.getHour()+timeIssued.getSecond();
+
         Receipt receipt = new Receipt(currentUser, selectedItemObservableList,
                 LocalDate.now(), LocalTime.now(),
                 BigDecimal.valueOf(Double.parseDouble(calculateTotalPrice(selectedItemObservableList))));
+        receipt.setName(receiptName);
 
         Database.saveReceipt(receipt);
         generatePdf.generateReceipt(receipt);

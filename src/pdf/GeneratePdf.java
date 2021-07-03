@@ -24,10 +24,10 @@ public class GeneratePdf {
         LocalDate localDate = LocalDate.now();
         LocalTime localTime = LocalTime.now();
 
-        String receiptName = localDate.toString() + "-" + localTime.getHour() + "-"
-                + localTime.getMinute() + "-" + localTime.getSecond();
+        /*String receiptName = localDate.toString() + "-" + localTime.getHour() + "-"
+                + localTime.getMinute() + "-" + localTime.getSecond();*/
 
-        String fileName ="receipts\\" + "RT-" + receiptName +".pdf";
+        String fileName ="receipts\\" + receipt.getName() +".pdf";
 
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(fileName));
