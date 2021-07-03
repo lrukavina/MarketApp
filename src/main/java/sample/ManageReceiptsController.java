@@ -3,10 +3,14 @@ package main.java.sample;
 import database.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import model.Item;
 import model.Receipt;
 import model.User;
@@ -25,6 +29,7 @@ import java.util.ResourceBundle;
 
 public class ManageReceiptsController implements Initializable {
     private static User currentUser = new User();
+    private static Receipt selectedReceipt = new Receipt();
     private static ObservableList<Receipt> receiptsObservableList;
     private List<Receipt> receipts = new ArrayList<>();
 
@@ -46,9 +51,23 @@ public class ManageReceiptsController implements Initializable {
     @FXML
     private TableColumn<Receipt, BigDecimal> receiptPriceColumn;
 
+    private ContextMenu contextMenu = new ContextMenu();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         receiptsObservableList = FXCollections.observableArrayList();
+        contextMenu.getItems().add(new MenuItem("Print receipt"));
+        contextMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    printReceipt(selectedReceipt);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         try {
             receipts = Database.fetchAllReceipts();
@@ -59,6 +78,14 @@ public class ManageReceiptsController implements Initializable {
         receiptsObservableList.addAll(receipts);
         receiptTableView.setPlaceholder(new Label("No receipts found, please make a purchase"));
         receiptTableView.setItems(receiptsObservableList);
+        receiptTableView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton() == MouseButton.SECONDARY){
+                    contextMenu.show(receiptTableView, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+                }
+            }
+        });
 
         receiptNameColumn.setCellValueFactory(new PropertyValueFactory<Receipt, String>("name"));
         receiptUserColumn.setCellValueFactory(new PropertyValueFactory<Receipt, User>("user"));
@@ -72,14 +99,14 @@ public class ManageReceiptsController implements Initializable {
                 if(event.getClickCount() == 2 && (!row.isEmpty())){
                     Receipt receipt = row.getItem();
                     try {
-                        selectReceipt(receipt);
+                        viewReceipt(receipt);
                     } catch (IOException e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error opening receipt");
-                        alert.setHeaderText("Cannot open receipt");
-                        alert.setContentText("Receipt cannot be open, file might be deleted");
-                        alert.showAndWait();
+                        e.printStackTrace();
                     }
+                }
+                else if(event.getClickCount() == 1 && (!row.isEmpty())){
+                    Receipt receipt = row.getItem();
+                    selectReceipt(receipt);
                 }
             });
             return row;
@@ -90,9 +117,18 @@ public class ManageReceiptsController implements Initializable {
         currentUser = user;
     }
 
-    public void selectReceipt(Receipt receipt) throws IOException {
+    private void selectReceipt(Receipt receipt){
+        selectedReceipt = receipt;
+    }
+
+    public void viewReceipt(Receipt receipt) throws IOException {
         PdfManager pdfManager = new PdfManager();
         pdfManager.openReceipt(receipt);
 
+    }
+
+    public void printReceipt(Receipt receipt) throws IOException {
+        PdfManager pdfManager = new PdfManager();
+        pdfManager.printReceipt(receipt);
     }
 }

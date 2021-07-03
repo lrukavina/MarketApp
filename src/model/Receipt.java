@@ -30,6 +30,8 @@ public class Receipt{
         this.price = price;
     }
 
+    public Receipt() {}
+
     public String getName() {
         return name;
     }
