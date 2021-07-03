@@ -23,12 +23,35 @@ public class PdfManager {
 
         if(file.exists()){
             desktop.open(file);
+            desktop.print(file);
         }
         else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error opening receipt");
             alert.setHeaderText("Cannot open receipt");
             alert.setContentText("Receipt cannot be open, file might be deleted or is not on this machine");
+            alert.showAndWait();
+        }
+    }
+
+    public void printReceipt(Receipt receipt) throws IOException {
+        File file = new File("receipts\\"+receipt.getName()+".pdf");
+
+        if(!Desktop.isDesktopSupported()){
+            System.out.println("Desktop is not supported");
+            return;
+        }
+
+        Desktop desktop = Desktop.getDesktop();
+
+        if(file.exists()){
+            desktop.print(file);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error printing receipt");
+            alert.setHeaderText("Cannot print receipt");
+            alert.setContentText("Receipt cannot be printed, file might be deleted or is not on this machine");
             alert.showAndWait();
         }
     }
