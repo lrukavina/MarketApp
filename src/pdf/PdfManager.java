@@ -23,7 +23,6 @@ public class PdfManager {
 
         if(file.exists()){
             desktop.open(file);
-            desktop.print(file);
         }
         else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
