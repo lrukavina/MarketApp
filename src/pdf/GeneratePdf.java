@@ -55,7 +55,7 @@ public class GeneratePdf {
         paragraph.add(" ");
         document.add(paragraph);
         paragraph.clear();
-        paragraph.add("Employee: " + receipt.getUser().getName() + " " + receipt.getUser().getSurname());
+        paragraph.add("Employee: " + receipt.getUserNameSurname());
         document.add(paragraph);
 
         paragraph.clear();

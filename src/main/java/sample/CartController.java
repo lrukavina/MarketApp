@@ -6,10 +6,13 @@ import enumeration.ItemType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import model.Item;
 import model.Receipt;
 import model.User;
@@ -35,6 +38,7 @@ public class CartController implements Initializable {
     private static ObservableList<Item> selectedItemObservableList;
     private static ObservableList<String> searchByObservableList;
     private static User currentUser;
+    private static Item selectedItem = new Item();
     private List<Item> items = new ArrayList<>();
     private List<Item> selectedItems = new ArrayList<>();
     private SettingsLoader settingsLoader = new SettingsLoader();
@@ -119,7 +123,27 @@ public class CartController implements Initializable {
         selectedItemObservableList = FXCollections.observableArrayList();
         selectedItemObservableList.addAll(selectedItems);
         selectedItemTableView.setItems(selectedItemObservableList);
-        selectedItemTableView.setPlaceholder(new Label("Selected items"));
+        selectedItemTableView.setPlaceholder(new Label("Cart is empty, please select items"));
+        selectedItemTableView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton() == MouseButton.SECONDARY){
+                    removeItemFromCart(selectedItem);
+                }
+            }
+        });
+
+        selectedItemTableView.setRowFactory(SelectedItemTableView -> {
+            TableRow<Item> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 1 && (!row.isEmpty())){
+                    Item item = row.getItem();
+                    selectItem(item);
+                }
+            });
+            return row;
+        });
+
 
         selectedItemNameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         selectedItemQuantityColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
@@ -138,6 +162,7 @@ public class CartController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if(event.getClickCount() == 2 && (!row.isEmpty())){
                     Item item = row.getItem();
+                    addItemToCart(item);
                     selectItem(item);
                 }
             });
@@ -160,6 +185,11 @@ public class CartController implements Initializable {
     }
 
     private void selectItem(Item item){
+        selectedItem = item;
+    }
+
+
+    private void addItemToCart(Item item){
 
         boolean itemFound = false;
 
@@ -169,11 +199,11 @@ public class CartController implements Initializable {
                 selectedItem.setQuantity(selectedItem.getQuantity() + 1);
                 selectedItem.calculatePrice();
 
-                List<Item> refreshSelected = new ArrayList<>();
-                refreshSelected.addAll(selectedItemObservableList);
+                List<Item> refreshCartItems = new ArrayList<>();
+                refreshCartItems.addAll(selectedItemObservableList);
                 selectedItemObservableList.clear();
 
-                selectedItemObservableList.addAll(refreshSelected);
+                selectedItemObservableList.addAll(refreshCartItems);
                 itemFound = true;
                 break;
             }
@@ -189,11 +219,29 @@ public class CartController implements Initializable {
         priceLabel.setText(calculateTotalPrice(selectedItemObservableList)+" "+settings.getProperty("currency"));
     }
 
+    private void removeItemFromCart(Item item){
+        List<Item> refreshCartItems = new ArrayList<>();
+
+        if(item.getQuantity() > 1){
+            item.setQuantity(item.getQuantity() - 1);
+        }
+        else {
+            selectedItemObservableList.remove(item);
+        }
+
+        refreshCartItems.addAll(selectedItemObservableList);
+        selectedItemObservableList.clear();
+        selectedItemObservableList.addAll(refreshCartItems);
+
+        priceLabel.setText(calculateTotalPrice(selectedItemObservableList)+" "+settings.getProperty("currency"));
+    }
+
     private String calculateTotalPrice(List<Item> items){
 
         BigDecimal totalPrice = BigDecimal.valueOf(0);
 
         for(Item item: items){
+            item.calculatePrice();
             totalPrice = totalPrice.add(item.getPrice());
 
         }
@@ -203,22 +251,36 @@ public class CartController implements Initializable {
 
     @FXML
     public void finishPurchase() throws IOException, DocumentException, SQLException {
+
+        if(calculateTotalPrice(selectedItemObservableList).equals("0")){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Cannot finish purchase");
+            alert.setHeaderText("Cart is empty");
+            alert.setContentText("Cannot finish purchase because cart is empty, please select items " +
+                    "by double clicking them");
+            alert.showAndWait();
+            return;
+        }
+
         GeneratePdf generatePdf = new GeneratePdf();
         LocalDate dateIssued = LocalDate.now();
         LocalTime timeIssued = LocalTime.now();
         String receiptName = "RT-"+dateIssued+timeIssued.getHour()+timeIssued.getHour()+timeIssued.getSecond();
 
-        Receipt receipt = new Receipt(currentUser, selectedItemObservableList,
+        String userNameSurname = currentUser.getName() + " " + currentUser.getSurname();
+        Receipt receipt = new Receipt(userNameSurname, selectedItemObservableList,
                 LocalDate.now(), LocalTime.now(),
                 BigDecimal.valueOf(Double.parseDouble(calculateTotalPrice(selectedItemObservableList))));
         receipt.setName(receiptName);
 
         Database.saveReceipt(receipt);
         generatePdf.generateReceipt(receipt);
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Finished purchase");
         alert.setHeaderText("Finished purchase and saved receipt");
-        alert.setContentText("Purchase has been finished on "+ LocalDate.now()+" "+LocalTime.now()+"and the receipt " +
+        alert.setContentText("Purchase has been finished on "+ LocalDate.now()+" " +
+                ""+LocalTime.now().getHour()+":"+LocalTime.now().getHour()+":"+LocalTime.now().getSecond()+" and the receipt " +
                 "has been saved");
         alert.showAndWait();
 

@@ -38,7 +38,7 @@ public class Test {
         Receipt receipt = Database.fetchAllReceipts().get(0);
 
         items.add(item);
-        Receipt testReceipt = new Receipt(user, items, LocalDate.now(), LocalTime.now(), BigDecimal.valueOf(25));
+        Receipt testReceipt = new Receipt(user.getName()+" "+user.getSurname(), items, LocalDate.now(), LocalTime.now(), BigDecimal.valueOf(25));
 
         //Database.saveReceipt(testReceipt);
 
@@ -65,7 +65,7 @@ public class Test {
         paragraph.add(" ");
         document.add(paragraph);
         paragraph.clear();
-        paragraph.add("Employee: " + receipt.getUser().getName() + " " + receipt.getUser().getSurname());
+        paragraph.add("Employee: " + receipt.getUserNameSurname());
         document.add(paragraph);
 
         paragraph.clear();

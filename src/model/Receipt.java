@@ -7,23 +7,23 @@ import java.util.List;
 
 public class Receipt{
     private String name;
-    private User user;
+    private String userNameSurname;
     private List<Item> items;
     private LocalDate dateIssued;
     private LocalTime timeIssued;
     private BigDecimal price;
 
-    public Receipt(User user, List<Item> items, LocalDate dateIssued, LocalTime timeIssued, BigDecimal price) {
-        this.user = user;
+    public Receipt(String userNameSurname, List<Item> items, LocalDate dateIssued, LocalTime timeIssued, BigDecimal price) {
+        this.userNameSurname = userNameSurname;
         this.items = items;
         this.dateIssued = dateIssued;
         this.timeIssued = timeIssued;
         this.price = price;
     }
 
-    public Receipt(String name, User user, List<Item> items, LocalDate dateIssued, LocalTime timeIssued, BigDecimal price) {
+    public Receipt(String name, String userNameSurname, List<Item> items, LocalDate dateIssued, LocalTime timeIssued, BigDecimal price) {
         this.name = name;
-        this.user = user;
+        this.userNameSurname = userNameSurname;
         this.items = items;
         this.dateIssued = dateIssued;
         this.timeIssued = timeIssued;
@@ -40,12 +40,12 @@ public class Receipt{
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserNameSurname() {
+        return userNameSurname;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserNameSurname(String userNameSurname) {
+        this.userNameSurname = userNameSurname;
     }
 
     public List<Item> getItems() {

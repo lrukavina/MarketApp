@@ -176,17 +176,16 @@ public class Database {
         while (rs.next()){
             long id = rs.getLong("id");
             String name = rs.getString("name");
-            long userId = rs.getLong("user_id");
+            String userNameSurname = rs.getString("user_name_surname");
             Date dateIssued = rs.getDate("date_issued");
             Time timeIssued = rs.getTime("time_issued");
             BigDecimal price = rs.getBigDecimal("price");
 
-            user = fetchReceiptUser(userId);
             items = fetchReceiptItems(id);
             LocalDate localDateIssued = dateIssued.toLocalDate();
             LocalTime localTimeIssued = timeIssued.toLocalTime();
 
-            Receipt receipt = new Receipt(name, user, items, localDateIssued, localTimeIssued, price);
+            Receipt receipt = new Receipt(name, userNameSurname, items, localDateIssued, localTimeIssued, price);
             receipts.add(receipt);
         }
         closeConnection(connection);
@@ -228,47 +227,15 @@ public class Database {
         return items;
     }
 
-    private static User fetchReceiptUser(Long userId) throws SQLException {
-        User user = new User();
-
-        Connection connection = openConnection();
-
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM USER WHERE ID = ?");
-        stmt.setLong(1, userId);
-        ResultSet rs = stmt.executeQuery();
-
-        while (rs.next()){
-            Long id = rs.getLong("id");
-            String name = rs.getString("name");
-            String surname = rs.getString("surname");
-            String userTypeString = rs.getString("type");
-
-            UserType userType = null;
-            switch (userTypeString){
-                case "Admin":
-                    userType = UserType.ADMIN; break;
-                case "User":
-                    userType = UserType.USER; break;
-            }
-
-            String username = rs.getString("username");
-            String password = rs.getString("password");
-
-            User fetchedUser = new User(id, name, surname, userType, username, password);
-            user = fetchedUser;
-        }
-        closeConnection(connection);
-        return user;
-    }
 
     public static void saveReceipt(Receipt receipt) throws SQLException {
         Connection connection = openConnection();
 
-        PreparedStatement stmt = connection.prepareStatement("INSERT INTO RECEIPT(NAME, USER_ID, DATE_ISSUED, TIME_ISSUED, PRICE)" +
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO RECEIPT(NAME, USER_NAME_SURNAME, DATE_ISSUED, TIME_ISSUED, PRICE)" +
                 "VALUES (?,?,?,?,?)");
 
         stmt.setString(1, receipt.getName());
-        stmt.setLong(2, receipt.getUser().getId());
+        stmt.setString(2, receipt.getUserNameSurname());
         stmt.setDate(3, Date.valueOf(receipt.getDateIssued()));
         stmt.setTime(4, Time.valueOf(receipt.getTimeIssued()));
         stmt.setBigDecimal(5, receipt.calculatePrice());

@@ -40,7 +40,7 @@ public class ManageReceiptsController implements Initializable {
     private TableColumn<Receipt, String> receiptNameColumn;
 
     @FXML
-    private TableColumn<Receipt, User> receiptUserColumn;
+    private TableColumn<Receipt, String> receiptUserColumn;
 
     @FXML
     private TableColumn<Receipt, LocalDate> receiptDateColumn;
@@ -88,7 +88,7 @@ public class ManageReceiptsController implements Initializable {
         });
 
         receiptNameColumn.setCellValueFactory(new PropertyValueFactory<Receipt, String>("name"));
-        receiptUserColumn.setCellValueFactory(new PropertyValueFactory<Receipt, User>("user"));
+        receiptUserColumn.setCellValueFactory(new PropertyValueFactory<Receipt, String>("userNameSurname"));
         receiptDateColumn.setCellValueFactory(new PropertyValueFactory<Receipt, LocalDate>("dateIssued"));
         receiptTimeColumn.setCellValueFactory(new PropertyValueFactory<Receipt, LocalTime>("timeIssued"));
         receiptPriceColumn.setCellValueFactory(new PropertyValueFactory<Receipt, BigDecimal>("price"));
