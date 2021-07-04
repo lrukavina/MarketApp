@@ -1,6 +1,9 @@
 package main.java.sample;
 
 import enumeration.UserType;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +15,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.User;
 import settings.SettingsLoader;
 
@@ -19,6 +23,9 @@ import settings.SettingsLoader;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -38,6 +45,9 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private Label marketAddress = new Label();
+
+    @FXML
+    private Label dateTime = new Label();
 
     @FXML
     private MenuBar menuBar;
@@ -70,6 +80,18 @@ public class MainMenuController implements Initializable {
                addItemMenuItem.setDisable(true);
                settingsMenuItem.setDisable(true);
             }
+
+
+            dateTime.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("MM.dd.yyyy."))
+                        + " " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event ->{
+                dateTime.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("MM.dd.yyyy."))
+                        + " " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            }));
+
+            timeline.setCycleCount(Animation.INDEFINITE );
+            timeline.play();
         }
     }
 
