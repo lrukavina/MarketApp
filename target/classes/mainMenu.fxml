@@ -1,18 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.sample.MainMenuController">
    <children>
       <BorderPane prefHeight="600.0" prefWidth="800.0">
-         <center>
-            <Text fx:id="welcomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to MarketApp" BorderPane.alignment="CENTER" />
-         </center>
          <top>
             <fx:include fx:id="menuBar" source="menuBar.fxml" />
          </top>
+         <center>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to MarketApp" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </Text>
+                  <Label fx:id="userNameSurname" style="-fx-font-weight: bold;" text="User name and surname " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets top="40.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="marketName" text="MarketName" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets top="70.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label fx:id="marketAddress" text="MarketAddress" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets top="100.0" />
+                     </GridPane.margin>
+                  </Label>
+               </children>
+            </GridPane>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

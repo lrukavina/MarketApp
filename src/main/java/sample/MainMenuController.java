@@ -7,26 +7,37 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.User;
+import settings.SettingsLoader;
 
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
 
 
     private static User currentUser;
+    private SettingsLoader settingsLoader = new SettingsLoader();
+    private Properties properties = new Properties();
 
     @FXML
-    private Text welcomeText = new Text("Welcome");
+    private Label userNameSurname = new Label();
+
+    @FXML
+    private Label marketName = new Label();
+
+    @FXML
+    private Label marketAddress = new Label();
 
     @FXML
     private MenuBar menuBar;
@@ -44,7 +55,15 @@ public class MainMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(currentUser != null){
-            welcomeText.setText(currentUser.getUsername().toUpperCase()+", welcome to MarketApp");
+            try {
+                properties = settingsLoader.loadSettings();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            userNameSurname.setText(currentUser.getName() + " " + currentUser.getSurname());
+            marketName.setText(properties.getProperty("marketName"));
+            marketAddress.setText(properties.getProperty("marketAddress"));
 
             if(currentUser.getUserType().equals(UserType.USER)){
                registerUserMenuItem.setDisable(true);
