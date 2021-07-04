@@ -1,5 +1,6 @@
 package pdf;
 
+import com.itextpdf.text.DocumentException;
 import javafx.scene.control.Alert;
 import model.Receipt;
 
@@ -11,7 +12,7 @@ public class PdfManager {
 
     public PdfManager(){}
 
-    public void openReceipt(Receipt receipt) throws IOException {
+    public void openReceipt(Receipt receipt) throws IOException, DocumentException {
         File file = new File("receipts\\"+receipt.getName()+".pdf");
 
         if(!Desktop.isDesktopSupported()){
@@ -25,15 +26,13 @@ public class PdfManager {
             desktop.open(file);
         }
         else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error opening receipt");
-            alert.setHeaderText("Cannot open receipt");
-            alert.setContentText("Receipt cannot be open, file might be deleted or is not on this machine");
-            alert.showAndWait();
+            GeneratePdf generatePdf = new GeneratePdf();
+            generatePdf.generateReceipt(receipt);
+            desktop.open(file);
         }
     }
 
-    public void printReceipt(Receipt receipt) throws IOException {
+    public void printReceipt(Receipt receipt) throws IOException, DocumentException {
         File file = new File("receipts\\"+receipt.getName()+".pdf");
 
         if(!Desktop.isDesktopSupported()){
@@ -47,11 +46,9 @@ public class PdfManager {
             desktop.print(file);
         }
         else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error printing receipt");
-            alert.setHeaderText("Cannot print receipt");
-            alert.setContentText("Receipt cannot be printed, file might be deleted or is not on this machine");
-            alert.showAndWait();
+            GeneratePdf generatePdf = new GeneratePdf();
+            generatePdf.generateReceipt(receipt);
+            desktop.print(file);
         }
     }
 }

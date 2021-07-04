@@ -1,5 +1,6 @@
 package main.java.sample;
 
+import com.itextpdf.text.DocumentException;
 import database.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,7 +63,7 @@ public class ManageReceiptsController implements Initializable {
             public void handle(ActionEvent event) {
                 try {
                     printReceipt(selectedReceipt);
-                } catch (IOException e) {
+                } catch (IOException | DocumentException e) {
                     e.printStackTrace();
                 }
             }
@@ -100,7 +101,7 @@ public class ManageReceiptsController implements Initializable {
                     Receipt receipt = row.getItem();
                     try {
                         viewReceipt(receipt);
-                    } catch (IOException e) {
+                    } catch (IOException | DocumentException e) {
                         e.printStackTrace();
                     }
                 }
@@ -121,13 +122,13 @@ public class ManageReceiptsController implements Initializable {
         selectedReceipt = receipt;
     }
 
-    public void viewReceipt(Receipt receipt) throws IOException {
+    public void viewReceipt(Receipt receipt) throws IOException, DocumentException {
         PdfManager pdfManager = new PdfManager();
         pdfManager.openReceipt(receipt);
 
     }
 
-    public void printReceipt(Receipt receipt) throws IOException {
+    public void printReceipt(Receipt receipt) throws IOException, DocumentException {
         PdfManager pdfManager = new PdfManager();
         pdfManager.printReceipt(receipt);
     }
